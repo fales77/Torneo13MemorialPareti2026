@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13° Memorial Pareti 2026 – Champions League</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap');
+
+  :root {
+    --blu: #0a1628;
+    --blu-mid: #142040;
+    --gold: #f5c842;
+    --gold-light: #fde98a;
+    --bianco: #f8f6f0;
+    --grigio: #8a8fa8;
+    --verde: #2ecc71;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--blu);
+    color: var(--bianco);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    min-height: 100vh;
+    padding-bottom: 2rem;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(160deg, #0d1f3c 0%, #0a1628 60%);
+    padding: 1.5rem 1rem 1rem;
+    text-align: center;
+    border-bottom: 3px solid var(--gold);
+    position: relative;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(245,200,66,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  /* [1] Titolo bianco */
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 1.05;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  /* [2] Spazio tra h1 e badge */
+  .header-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--blu);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+  header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--bianco);
+    opacity: 0.85;
+    margin-top: 0.3rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .header-sub {
+    font-size: 13px;
+    color: var(--grigio);
+    margin-top: 0.5rem;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    background: var(--blu-mid);
+    border-bottom: 2px solid rgba(255,255,255,0.07);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-btn {
+    flex: 1;
+    padding: 0.85rem 0.3rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--grigio);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .nav-btn:hover { color: var(--bianco); }
+
+  /* SEZIONI */
+  .sezione { padding: 1rem; }
+  .sezione-titolo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(245,200,66,0.25);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .info-box {
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: var(--radius);
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--gold-light);
+  }
+  .info-box strong { color: var(--gold); font-weight: 600; }
+
+  /* ── CLASSIFICA ── */
+  .classifica-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .classifica-table thead th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--grigio);
+    padding: 6px 4px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .classifica-table thead th:nth-child(2) { text-align: left; }
+
+  /* [5] altezza righe uniforme */
+  .classifica-table tbody tr { height: 38px; }
+  .classifica-table tbody td {
+    padding: 0 4px;
+    font-size: 13px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .classifica-table tbody td:nth-child(2) { text-align: left; }
+
+  /* [4] evidenziazione prime 12 */
+  .row-qualif { background: rgba(20, 60, 110, 0.65); }
+  .row-out    { background: rgba(255,255,255,0.02); }
+
+  /* [3] numero senza cerchio */
+  .pos-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--grigio);
+  }
+  .pos-num.gold   { color: var(--gold); }
+  .pos-num.silver { color: #b0b8cc; }
+  .pos-num.bronze { color: #c87533; }
+
+  .qualif-bar {
+    width: 3px;
+    height: 26px;
+    background: var(--verde);
+    border-radius: 2px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .team-name { font-weight: 500; font-size: 13px; }
+
+  .separator-row td {
+    padding: 4px 0 !important;
+    background: transparent !important;
+  }
+  .separator-label {
+    font-size: 10px;
+    color: var(--verde);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-left: 2px;
+  }
+  .separator-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--verde);
+    opacity: 0.3;
+  }
+
+  /* ── CALENDARIO ── */
+  .giorno-block { margin-bottom: 1.2rem; }
+  .giorno-header {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 6px 0 6px 2px;
+    border-bottom: 1px solid rgba(245,200,66,0.2);
+    margin-bottom: 6px;
+  }
+  .partita-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.7rem;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-left: 3px solid transparent;
+  }
+  .partita-card .orario {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 40px;
+    flex-shrink: 0;
+  }
+  .partita-vs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .partita-vs .squadre {
+    font-weight: 600;
+    font-size: 12.5px;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .vs-sep {
+    font-size: 10px;
+    color: var(--grigio);
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .partita-giornata {
+    font-size: 10px;
+    color: var(--grigio);
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  /* [7] box risultato */
+  .risultato-box {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  .risultato-box input {
+    width: 30px;
+    height: 30px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    color: var(--bianco);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  .risultato-box input:focus {
+    border-color: var(--gold);
+    background: rgba(245,200,66,0.12);
+  }
+  .risultato-box input::-webkit-outer-spin-button,
+  .risultato-box input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .risultato-sep {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--grigio);
+    padding: 0 1px;
+  }
+
+  .g1 { border-left-color: #3498db; }
+  .g2 { border-left-color: #9b59b6; }
+  .g3 { border-left-color: #e67e22; }
+  .g4 { border-left-color: #27ae60; }
+  .g5 { border-left-color: #e74c3c; }
+  .g6 { border-left-color: #1abc9c; }
+
+  /* ── FASI FINALI ── */
+  .fase-block { margin-bottom: 1.4rem; }
+  .fase-titolo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fase-titolo::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: var(--gold);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  /* [9] card finali stile calendario */
+  .finale-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.7rem;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-left: 3px solid rgba(245,200,66,0.45);
+  }
+  .finale-card.special {
+    background: rgba(245,200,66,0.08);
+    border-left-color: var(--gold);
+  }
+  .finale-orario {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 40px;
+    flex-shrink: 0;
+  }
+  .finale-vs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .finale-sfida-nome {
+    font-weight: 600;
+    font-size: 12.5px;
+    line-height: 1.25;
+    color: var(--bianco);
+  }
+  .finale-fase-label {
+    font-size: 10px;
+    color: var(--grigio);
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .finale-card.special .finale-sfida-nome { color: var(--gold-light); }
+
+  .divider-date {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--grigio);
+    margin-bottom: 5px;
+    margin-top: 2px;
+  }
+
+  /* ── SQUADRE ── */
+  .squadre-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+  .squadra-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .squadra-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: rgba(245,200,66,0.35);
+    min-width: 22px;
+    text-align: center;
+  }
+  .squadra-nome { font-size: 12.5px; font-weight: 500; line-height: 1.2; }
+
+  .nota {
+    font-size: 12px;
+    color: var(--grigio);
+    text-align: center;
+    margin-top: 1rem;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>13° Memorial<br>Sergio Pareti</h1>
+  <div class="header-badge">⚽ Esordienti 1° Anno - Under 12</div>
+  <h2>Formula Champions League</h2>
+  <p class="header-sub">A.C.D. Lucento · Torino · Maggio–Giugno 2026</p>
+</header>
+
+<nav class="nav">
+  <a class="nav-btn" href="#classifica">🏆 Classifica</a>
+  <a class="nav-btn" href="#calendario">📅 Calendario</a>
+  <a class="nav-btn" href="#finali">🎯 Finali</a>
+  <a class="nav-btn" href="#squadre">👕 Squadre</a>
+</nav>
+
+<!-- ═══════ CLASSIFICA ═══════ -->
+<div class="sezione" id="classifica">
+  <div class="sezione-titolo">🏆 Classifica</div>
+  <div class="info-box">
+    <strong>6 gare</strong> per ogni squadra · Passano il turno <strong>le prime 12 classificate</strong>
+  </div>
+  <table class="classifica-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Squadra</th>
+        <th>Pt</th>
+        <th>G</th>
+        <th>RF</th>
+        <th>RS</th>
+        <th>DR</th>
+      </tr>
+    </thead>
+    <tbody id="classifica-body"></tbody>
+  </table>
+  <p class="nota">Pt = Punti · G = Gare · RF = Reti Fatte · RS = Reti Subite · DR = Diff. Reti</p>
+</div>
+
+<!-- ═══════ CALENDARIO ═══════ -->
+<div class="sezione" id="calendario">
+  <div class="sezione-titolo">📅 Calendario</div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Sabato 16 Maggio</div>
+    <div class="partita-card g1"><span class="orario">13:00</span><div class="partita-vs"><span class="squadre">CIT TURIN <span class="vs-sep">vs</span> PRO COLLEGNO</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g1"><span class="orario">15:00</span><div class="partita-vs"><span class="squadre">P. BRUINESE <span class="vs-sep">vs</span> LASCARIS</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g3"><span class="orario">16:00</span><div class="partita-vs"><span class="squadre">STS <span class="vs-sep">vs</span> LUCENTO ROSSO</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g1"><span class="orario">17:00</span><div class="partita-vs"><span class="squadre">CENTROCAMPO <span class="vs-sep">vs</span> BARRIERA DI LANZO</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g1"><span class="orario">18:00</span><div class="partita-vs"><span class="squadre">SETTIMO <span class="vs-sep">vs</span> LUCENTO ROSA</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Domenica 17 Maggio</div>
+    <div class="partita-card g1"><span class="orario">16:30</span><div class="partita-vs"><span class="squadre">PRO COLLEGNO <span class="vs-sep">vs</span> AUTOVIP S.M.</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g1"><span class="orario">17:30</span><div class="partita-vs"><span class="squadre">CHISOLA <span class="vs-sep">vs</span> LUCENTO VERDE</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g1"><span class="orario">18:30</span><div class="partita-vs"><span class="squadre">POZZOMAINA <span class="vs-sep">vs</span> LUCENTO ROSSO</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g1"><span class="orario">19:30</span><div class="partita-vs"><span class="squadre">LUCENTO BLU <span class="vs-sep">vs</span> CARRARA</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Lunedì 18 Maggio</div>
+    <div class="partita-card g6"><span class="orario">19:00</span><div class="partita-vs"><span class="squadre">STS <span class="vs-sep">vs</span> CIT TURIN</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g6"><span class="orario">19:00</span><div class="partita-vs"><span class="squadre">SISPORT <span class="vs-sep">vs</span> BARRIERA DI LANZO</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g6"><span class="orario">20:00</span><div class="partita-vs"><span class="squadre">LUCENTO VERDE <span class="vs-sep">vs</span> P. BRUINESE</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g6"><span class="orario">20:00</span><div class="partita-vs"><span class="squadre">BORGARO <span class="vs-sep">vs</span> SETTIMO</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g3"><span class="orario">21:00</span><div class="partita-vs"><span class="squadre">AUTOVIP S.M. <span class="vs-sep">vs</span> CHISOLA</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Venerdì 22 Maggio</div>
+    <div class="partita-card g2"><span class="orario">19:00</span><div class="partita-vs"><span class="squadre">AUTOVIP S.M. <span class="vs-sep">vs</span> PINEROLO</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g2"><span class="orario">19:00</span><div class="partita-vs"><span class="squadre">STS <span class="vs-sep">vs</span> CARRARA</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g2"><span class="orario">20:00</span><div class="partita-vs"><span class="squadre">PINEROLO <span class="vs-sep">vs</span> CIT TURIN</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g2"><span class="orario">20:00</span><div class="partita-vs"><span class="squadre">CHISOLA <span class="vs-sep">vs</span> P. BRUINESE</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g5"><span class="orario">21:00</span><div class="partita-vs"><span class="squadre">SISPORT <span class="vs-sep">vs</span> LUCENTO BLU</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g2"><span class="orario">21:00</span><div class="partita-vs"><span class="squadre">VANCHIGLIA <span class="vs-sep">vs</span> LUCENTO VERDE</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Sabato 23 Maggio</div>
+    <div class="partita-card g3"><span class="orario">14:00</span><div class="partita-vs"><span class="squadre">CENTROCAMPO <span class="vs-sep">vs</span> LUCENTO BLU</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g3"><span class="orario">15:00</span><div class="partita-vs"><span class="squadre">CIT TURIN <span class="vs-sep">vs</span> LUCENTO VERDE</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g3"><span class="orario">16:00</span><div class="partita-vs"><span class="squadre">VANCHIGLIA <span class="vs-sep">vs</span> PINEROLO</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g3"><span class="orario">16:00</span><div class="partita-vs"><span class="squadre">PRO COLLEGNO <span class="vs-sep">vs</span> P. BRUINESE</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g3"><span class="orario">17:00</span><div class="partita-vs"><span class="squadre">SETTIMO <span class="vs-sep">vs</span> CARRARA</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g3"><span class="orario">17:00</span><div class="partita-vs"><span class="squadre">BORGARO <span class="vs-sep">vs</span> STS</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g3"><span class="orario">18:00</span><div class="partita-vs"><span class="squadre">LUCENTO ROSA <span class="vs-sep">vs</span> BARRIERA DI LANZO</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g3"><span class="orario">18:00</span><div class="partita-vs"><span class="squadre">SISPORT <span class="vs-sep">vs</span> LASCARIS</span><span class="partita-giornata">3ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Domenica 24 Maggio</div>
+    <div class="partita-card g4"><span class="orario">14:00</span><div class="partita-vs"><span class="squadre">AUTOVIP S.M. <span class="vs-sep">vs</span> POZZOMAINA</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g4"><span class="orario">14:00</span><div class="partita-vs"><span class="squadre">CIT TURIN <span class="vs-sep">vs</span> SETTIMO</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g4"><span class="orario">15:00</span><div class="partita-vs"><span class="squadre">BORGARO <span class="vs-sep">vs</span> CHISOLA</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g4"><span class="orario">16:00</span><div class="partita-vs"><span class="squadre">PINEROLO <span class="vs-sep">vs</span> SISPORT</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g4"><span class="orario">16:00</span><div class="partita-vs"><span class="squadre">LUCENTO BLU <span class="vs-sep">vs</span> BARRIERA DI LANZO</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g4"><span class="orario">17:00</span><div class="partita-vs"><span class="squadre">VANCHIGLIA <span class="vs-sep">vs</span> LUCENTO ROSSO</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g4"><span class="orario">17:00</span><div class="partita-vs"><span class="squadre">PRO COLLEGNO <span class="vs-sep">vs</span> CENTROCAMPO</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g4"><span class="orario">18:00</span><div class="partita-vs"><span class="squadre">STS <span class="vs-sep">vs</span> LASCARIS</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g4"><span class="orario">18:00</span><div class="partita-vs"><span class="squadre">LUCENTO ROSA <span class="vs-sep">vs</span> P. BRUINESE</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Lunedì 25 Maggio</div>
+    <div class="partita-card g5"><span class="orario">19:00</span><div class="partita-vs"><span class="squadre">AUTOVIP S.M. <span class="vs-sep">vs</span> SETTIMO</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g5"><span class="orario">19:00</span><div class="partita-vs"><span class="squadre">LASCARIS <span class="vs-sep">vs</span> CIT TURIN</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g1"><span class="orario">20:00</span><div class="partita-vs"><span class="squadre">POZZOMAINA <span class="vs-sep">vs</span> SISPORT</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g5"><span class="orario">20:00</span><div class="partita-vs"><span class="squadre">LUCENTO ROSSO <span class="vs-sep">vs</span> P. BRUINESE</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g1"><span class="orario">21:00</span><div class="partita-vs"><span class="squadre">BORGARO <span class="vs-sep">vs</span> VANCHIGLIA</span><span class="partita-giornata">1ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g4"><span class="orario">21:00</span><div class="partita-vs"><span class="squadre">CARRARA <span class="vs-sep">vs</span> LUCENTO VERDE</span><span class="partita-giornata">4ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Venerdì 29 Maggio</div>
+    <div class="partita-card g2"><span class="orario">19:00</span><div class="partita-vs"><span class="squadre">LUCENTO ROSSO <span class="vs-sep">vs</span> CENTROCAMPO</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g2"><span class="orario">19:00</span><div class="partita-vs"><span class="squadre">BORGARO <span class="vs-sep">vs</span> BARRIERA DI LANZO</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g2"><span class="orario">20:00</span><div class="partita-vs"><span class="squadre">LASCARIS <span class="vs-sep">vs</span> POZZOMAINA</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g2"><span class="orario">20:00</span><div class="partita-vs"><span class="squadre">SISPORT <span class="vs-sep">vs</span> SETTIMO</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g5"><span class="orario">21:00</span><div class="partita-vs"><span class="squadre">VANCHIGLIA <span class="vs-sep">vs</span> CARRARA</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g2"><span class="orario">21:00</span><div class="partita-vs"><span class="squadre">LUCENTO BLU <span class="vs-sep">vs</span> LUCENTO ROSA</span><span class="partita-giornata">2ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Sabato 30 Maggio</div>
+    <div class="partita-card g5"><span class="orario">14:00</span><div class="partita-vs"><span class="squadre">BORGARO <span class="vs-sep">vs</span> LUCENTO VERDE</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g5"><span class="orario">15:00</span><div class="partita-vs"><span class="squadre">CHISOLA <span class="vs-sep">vs</span> CENTROCAMPO</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g5"><span class="orario">16:00</span><div class="partita-vs"><span class="squadre">POZZOMAINA <span class="vs-sep">vs</span> BARRIERA DI LANZO</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g5"><span class="orario">17:00</span><div class="partita-vs"><span class="squadre">STS <span class="vs-sep">vs</span> PRO COLLEGNO</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g5"><span class="orario">18:00</span><div class="partita-vs"><span class="squadre">PINEROLO <span class="vs-sep">vs</span> LUCENTO ROSA</span><span class="partita-giornata">5ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+
+  <div class="giorno-block">
+    <div class="giorno-header">Domenica 31 Maggio</div>
+    <div class="partita-card g6"><span class="orario">14:00</span><div class="partita-vs"><span class="squadre">AUTOVIP S.M. <span class="vs-sep">vs</span> LUCENTO BLU</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g6"><span class="orario">15:00</span><div class="partita-vs"><span class="squadre">CHISOLA <span class="vs-sep">vs</span> VANCHIGLIA</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g6"><span class="orario">16:00</span><div class="partita-vs"><span class="squadre">PINEROLO <span class="vs-sep">vs</span> CARRARA</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g6"><span class="orario">17:00</span><div class="partita-vs"><span class="squadre">LASCARIS <span class="vs-sep">vs</span> PRO COLLEGNO</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g6"><span class="orario">18:00</span><div class="partita-vs"><span class="squadre">POZZOMAINA <span class="vs-sep">vs</span> CENTROCAMPO</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+    <div class="partita-card g6"><span class="orario">19:00</span><div class="partita-vs"><span class="squadre">LUCENTO ROSSO <span class="vs-sep">vs</span> LUCENTO ROSA</span><span class="partita-giornata">6ª Giornata</span></div><div class="risultato-box"><input type="number" min="0" max="99" placeholder="–"><span class="risultato-sep">-</span><input type="number" min="0" max="99" placeholder="–"></div></div>
+  </div>
+</div>
+
+<!-- ═══════ FINALI ═══════ -->
+<div class="sezione" id="finali">
+  <div class="sezione-titolo">🎯 Fasi Finali</div>
+
+  <div class="fase-block">
+    <div class="fase-titolo">Ottavi di Finale</div>
+    <div class="info-box" style="font-size:12px; margin-bottom:0.8rem;">In caso di pareggio al termine dei tempi regolamentari passa la migliore classificata.</div>
+    <div class="divider-date">Martedì 2 Giugno 2026</div>
+    <div class="finale-card"><span class="finale-orario">15:00</span><div class="finale-vs"><span class="finale-sfida-nome">5ª classificata <span class="vs-sep">vs</span> 12ª classificata</span><span class="finale-fase-label">Ottavi di finale</span></div></div>
+    <div class="finale-card"><span class="finale-orario">16:00</span><div class="finale-vs"><span class="finale-sfida-nome">6ª classificata <span class="vs-sep">vs</span> 11ª classificata</span><span class="finale-fase-label">Ottavi di finale</span></div></div>
+    <div class="finale-card"><span class="finale-orario">17:00</span><div class="finale-vs"><span class="finale-sfida-nome">7ª classificata <span class="vs-sep">vs</span> 10ª classificata</span><span class="finale-fase-label">Ottavi di finale</span></div></div>
+    <div class="finale-card"><span class="finale-orario">18:00</span><div class="finale-vs"><span class="finale-sfida-nome">8ª classificata <span class="vs-sep">vs</span> 9ª classificata</span><span class="finale-fase-label">Ottavi di finale</span></div></div>
+  </div>
+
+  <div class="fase-block">
+    <div class="fase-titolo">Quarti di Finale</div>
+    <div class="divider-date">Venerdì 5 Giugno 2026</div>
+    <div class="finale-card"><span class="finale-orario">19:00</span><div class="finale-vs"><span class="finale-sfida-nome">1ª classificata <span class="vs-sep">vs</span> Vinc. 8ª–9ª</span><span class="finale-fase-label">Quarti di finale</span></div></div>
+    <div class="finale-card"><span class="finale-orario">19:00</span><div class="finale-vs"><span class="finale-sfida-nome">2ª classificata <span class="vs-sep">vs</span> Vinc. 7ª–10ª</span><span class="finale-fase-label">Quarti di finale</span></div></div>
+    <div class="finale-card"><span class="finale-orario">20:00</span><div class="finale-vs"><span class="finale-sfida-nome">3ª classificata <span class="vs-sep">vs</span> Vinc. 6ª–11ª</span><span class="finale-fase-label">Quarti di finale</span></div></div>
+    <div class="finale-card"><span class="finale-orario">21:00</span><div class="finale-vs"><span class="finale-sfida-nome">4ª classificata <span class="vs-sep">vs</span> Vinc. 5ª–12ª</span><span class="finale-fase-label">Quarti di finale</span></div></div>
+  </div>
+
+  <div class="fase-block">
+    <div class="fase-titolo">Semifinali</div>
+    <div class="divider-date">Sabato 6 Giugno 2026</div>
+    <div class="finale-card"><span class="finale-orario">17:00</span><div class="finale-vs"><span class="finale-sfida-nome">Vinc. 1ª/8°-9° <span class="vs-sep">vs</span> Vinc. 4ª/5°-12°</span><span class="finale-fase-label">Semifinale</span></div></div>
+    <div class="finale-card"><span class="finale-orario">18:00</span><div class="finale-vs"><span class="finale-sfida-nome">Vinc. 2ª/7°-10° <span class="vs-sep">vs</span> Vinc. 3ª/6°-11°</span><span class="finale-fase-label">Semifinale</span></div></div>
+  </div>
+
+  <div class="fase-block">
+    <div class="fase-titolo">Finalissima</div>
+    <div class="divider-date">Domenica 7 Giugno 2026</div>
+    <div class="finale-card"><span class="finale-orario">17:00</span><div class="finale-vs"><span class="finale-sfida-nome">3° posto <span class="vs-sep">vs</span> 4° posto</span><span class="finale-fase-label">Finale 3°–4° posto</span></div></div>
+    <div class="finale-card special"><span class="finale-orario">18:00</span><div class="finale-vs"><span class="finale-sfida-nome">⭐ 1° posto <span class="vs-sep">vs</span> 2° posto</span><span class="finale-fase-label">Finalissima · A seguire premiazione sul campo</span></div></div>
+  </div>
+</div>
+
+<!-- ═══════ SQUADRE ═══════ -->
+<div class="sezione" id="squadre">
+  <div class="sezione-titolo">👕 Squadre</div>
+  <div class="info-box" style="margin-bottom:1rem;">20 squadre partecipanti · Categoria Esordienti 2014</div>
+  <div class="squadre-grid">
+    <div class="squadra-card"><span class="squadra-num">1</span><span class="squadra-nome">PINEROLO</span></div>
+    <div class="squadra-card"><span class="squadra-num">2</span><span class="squadra-nome">AUTOVIP S.M.</span></div>
+    <div class="squadra-card"><span class="squadra-num">3</span><span class="squadra-nome">CHISOLA</span></div>
+    <div class="squadra-card"><span class="squadra-num">4</span><span class="squadra-nome">VANCHIGLIA</span></div>
+    <div class="squadra-card"><span class="squadra-num">5</span><span class="squadra-nome">STS</span></div>
+    <div class="squadra-card"><span class="squadra-num">6</span><span class="squadra-nome">LUCENTO ROSSO</span></div>
+    <div class="squadra-card"><span class="squadra-num">7</span><span class="squadra-nome">LASCARIS</span></div>
+    <div class="squadra-card"><span class="squadra-num">8</span><span class="squadra-nome">BORGARO</span></div>
+    <div class="squadra-card"><span class="squadra-num">9</span><span class="squadra-nome">POZZOMAINA</span></div>
+    <div class="squadra-card"><span class="squadra-num">10</span><span class="squadra-nome">SISPORT</span></div>
+    <div class="squadra-card"><span class="squadra-num">11</span><span class="squadra-nome">CIT TURIN</span></div>
+    <div class="squadra-card"><span class="squadra-num">12</span><span class="squadra-nome">PRO COLLEGNO</span></div>
+    <div class="squadra-card"><span class="squadra-num">13</span><span class="squadra-nome">BRUINESE</span></div>
+    <div class="squadra-card"><span class="squadra-num">14</span><span class="squadra-nome">LUCENTO VERDE</span></div>
+    <div class="squadra-card"><span class="squadra-num">15</span><span class="squadra-nome">LUCENTO BLU</span></div>
+    <div class="squadra-card"><span class="squadra-num">16</span><span class="squadra-nome">CARRARA</span></div>
+    <div class="squadra-card"><span class="squadra-num">17</span><span class="squadra-nome">CENTROCAMPO</span></div>
+    <div class="squadra-card"><span class="squadra-num">18</span><span class="squadra-nome">BARRIERA DI LANZO</span></div>
+    <div class="squadra-card"><span class="squadra-num">19</span><span class="squadra-nome">SETTIMO</span></div>
+    <div class="squadra-card"><span class="squadra-num">20</span><span class="squadra-nome">LUCENTO ROSA</span></div>
+  </div>
+  <p class="nota" style="margin-top:1.5rem;">Organizzazione: A.C.D. Lucento · Torino</p>
+</div>
+
+<script>
+const squadre = [
+  "PINEROLO","AUTOVIP S.M.","CHISOLA","VANCHIGLIA","STS",
+  "LUCENTO ROSSO","LASCARIS","BORGARO","POZZOMAINA","SISPORT",
+  "CIT TURIN","PRO COLLEGNO","BRUINESE","LUCENTO VERDE",
+  "LUCENTO BLU","CARRARA","CENTROCAMPO","BARRIERA DI LANZO",
+  "SETTIMO","LUCENTO ROSA"
+];
+
+const classifica = squadre.map(nome => ({ nome, g:0, pt:0, rf:0, rs:0 }));
+
+function renderClassifica() {
+  const sorted = [...classifica].sort((a,b) => {
+    if (b.pt !== a.pt) return b.pt - a.pt;
+    const drB = b.rf - b.rs, drA = a.rf - a.rs;
+    if (drB !== drA) return drB - drA;
+    return b.rf - a.rf;
+  });
+  const tbody = document.getElementById('classifica-body');
+  tbody.innerHTML = '';
+
+  const sep = document.createElement('tr');
+  sep.className = 'separator-row';
+  sep.innerHTML = `<td colspan="7"><div class="separator-label">Zona qualificazione — prime 12</div></td>`;
+  tbody.appendChild(sep);
+
+  sorted.forEach((sq, i) => {
+    const pos = i + 1;
+    let numClass = '';
+    if (pos === 1) numClass = 'gold';
+    else if (pos === 2) numClass = 'silver';
+    else if (pos === 3) numClass = 'bronze';
+    const qualif = pos <= 12;
+    const dr = sq.rf - sq.rs;
+    const drStr = dr > 0 ? '+' + dr : (dr === 0 ? '0' : String(dr));
+
+    const tr = document.createElement('tr');
+    tr.className = qualif ? 'row-qualif' : 'row-out';
+    tr.innerHTML = `
+      <td style="padding-left:6px; white-space:nowrap;">
+        ${qualif ? '<span class="qualif-bar"></span>' : ''}
+        <span class="pos-num ${numClass}">${pos}</span>
+      </td>
+      <td class="team-name">${sq.nome}</td>
+      <td style="font-weight:700; color:var(--gold)">${sq.pt}</td>
+      <td>${sq.g}</td>
+      <td>${sq.rf}</td>
+      <td>${sq.rs}</td>
+      <td>${drStr}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+renderClassifica();
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(btn.getAttribute('href'));
+    if (target) {
+      const navH = document.querySelector('.nav').offsetHeight;
+      const top = target.getBoundingClientRect().top + window.scrollY - navH - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
