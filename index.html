@@ -272,6 +272,7 @@
     align-items: center;
     justify-content: space-between;
     border: 1px solid rgba(255,255,255,0.02);
+	gap: 10px;   /* opzionale, migliora spazi */
   }
   .partita-card.finalissima {
     border: 1px solid rgba(245,200,66,0.4);
@@ -289,11 +290,12 @@
   }
 
   .partita-vs {
-    flex-grow: 1;
+    flex: 1;
     display: flex;
     flex-direction: column;
     padding-left: 8px;
     overflow: hidden;
+	min-width: 0;         /* IMPORTANTISSIMO (serve per evitare bug su mobile) */
   }
   .squadre {
     font-weight: 600;
@@ -319,27 +321,31 @@
   .risultato-box {
     display: flex;
     align-items: center;
-    gap: 4px;
-    margin-left: 10px;
+    gap: 2px;
+	min-width: 60px;      /* 👈 fondamentale */
+	text-align: right;
+    margin-left: auto;
     flex-shrink: 0;
+	justify-content: flex-end;
+	font-variant-numeric: tabular-nums;
   }
   .risultato-num {
-    width: 32px;
-    height: 32px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--grigio);
-    cursor: pointer;
-    user-select: none;
-    transition: all 0.15s;
-  }
+  background: none;          /* niente box */
+  border: none;              /* niente bordo */
+  width: auto;
+  height: auto;
+  text-align: center;
+
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;           /* più piccolo */
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: var(--gold);        /* stesso colore dei punti */
+
+  display: inline;
+  padding: 0;
+}
+
   .risultato-num:focus {
     outline: none;
     border-color: var(--gold);
@@ -351,11 +357,17 @@
     background: rgba(245,200,66,0.1);
     border-color: rgba(245,200,66,0.3);
   }
-  .risultato-sep {
-    font-size: 1rem;
-    color: var(--grigio);
-    font-weight: bold;
-  }
+ 
+.risultato-sep {
+  font-size: 0.9rem;
+  color: var(--gold);
+  font-weight: 700;  
+	display: inline-block;
+  width: 8px;
+  text-align: center;
+
+}
+
 
   /* BADGE FINALI */
   .finale-badge {
