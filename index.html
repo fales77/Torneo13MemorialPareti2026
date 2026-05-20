@@ -104,9 +104,9 @@
     text-decoration: none;
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.89rem;
     text-transform: uppercase;
-    padding: 4px 11px;
+    padding: 3px 9px;
     border-radius: 20px;
     transition: all 0.25s ease;
     white-space: nowrap;
@@ -116,6 +116,15 @@
     background: var(--gold);
     box-shadow: 0 0 10px rgba(245,200,66,0.4);
   }
+  
+/* 👇 QUESTO È IL BONUS */
+@media (max-width: 480px) {
+  .nav-btn {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+  }
+}
+
 
   /* LAYOUT */
   .container {
