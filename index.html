@@ -104,7 +104,7 @@
     text-decoration: none;
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 0.89rem;
+    font-size: 1.1rem;
     text-transform: uppercase;
     padding: 3px 9px;
     border-radius: 20px;
@@ -120,11 +120,10 @@
 /* 👇 QUESTO È IL BONUS */
 @media (max-width: 480px) {
   .nav-btn {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     padding: 3px 8px;
   }
 }
-
 
   /* LAYOUT */
   .container {
@@ -410,6 +409,19 @@
     margin-top: 1rem;
     line-height: 1.5;
   }
+  @media (max-width: 480px) {
+  .squadre {
+    white-space: normal;      /* permette più righe */
+    overflow: visible;        /* niente tagli */
+    text-overflow: unset;     /* niente ... */
+    font-size: 0.85rem;       /* leggermente più piccolo */
+    line-height: 1.1;
+  }
+
+  .partita-vs {
+    overflow: visible;        /* IMPORTANTISSIMO */
+  }
+}
 </style>
 </head>
 <body>
