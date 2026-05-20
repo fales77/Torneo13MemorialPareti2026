@@ -285,7 +285,7 @@
     font-weight: 700;
     font-size: 1rem;
     color: var(--grigio);
-    width: 42px;
+    width: 36px;
     flex-shrink: 0;
   }
 
@@ -293,7 +293,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding-left: 8px;
+    padding-left: 2px;
     overflow: hidden;
 	min-width: 0;         /* IMPORTANTISSIMO (serve per evitare bug su mobile) */
   }
@@ -319,31 +319,34 @@
 
   /* RISULTATO */
   .risultato-box {
-    display: flex;
+    display: grid;
+	grid-template-columns: 12px 6px 12px; /* 👈 chiave */
     align-items: center;
     gap: 2px;
-	min-width: 60px;      /* 👈 fondamentale */
+	min-width: 55px;      /* 👈 fondamentale */
 	text-align: right;
     margin-left: auto;
     flex-shrink: 0;
-	justify-content: flex-end;
+	justify-content: end;
 	font-variant-numeric: tabular-nums;
   }
   .risultato-num {
   background: none;          /* niente box */
   border: none;              /* niente bordo */
-  width: auto;
+  box-shadow: none;     /* ❌ eventuale ombra rimossa */
+  width: 100%;
   height: auto;
   text-align: center;
 
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 1.1rem;           /* più piccolo */
-  letter-spacing: 1px;
+  letter-spacing: 0px;
   font-weight: 700;
   color: var(--gold);        /* stesso colore dei punti */
 
-  display: inline;
+  /*display: inline;*/
   padding: 0;
+  margin: 0;
 }
 
   .risultato-num:focus {
@@ -353,9 +356,7 @@
     color: var(--bianco);
   }
   .risultato-box.match-done .risultato-num {
-    color: var(--gold);
-    background: rgba(245,200,66,0.1);
-    border-color: rgba(245,200,66,0.3);
+    color: var(--gold);   
   }
  
 .risultato-sep {
@@ -365,9 +366,7 @@
 	display: inline-block;
   width: 8px;
   text-align: center;
-
 }
-
 
   /* BADGE FINALI */
   .finale-badge {
@@ -854,25 +853,25 @@
     <div class="info-box">In caso di pareggio al termine dei tempi regolamentari passa la migliore classificata.</div>
 
     <div class="giorno-block">
-      <div class="giorno-header">Martedì 2 Giugno — Ottavi di Finale</div>
+      <div class="giorno-header">Martedì 2 Giugno — "Ottavi di Finale"</div>
       <div class="partita-card">
         <span class="orario">15:00</span>
-        <div class="partita-vs"><span class="squadre">5ª classificata <span class="vs-sep">vs</span> 12ª classificata</span><div><span class="finale-badge">Ottavi</span></div></div>
+        <div class="partita-vs"><span class="squadre">5ª  <span class="vs-sep">vs</span> 12ª </span><div><span class="finale-badge">Gara 1</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
       <div class="partita-card">
         <span class="orario">16:00</span>
-        <div class="partita-vs"><span class="squadre">6ª classificata <span class="vs-sep">vs</span> 11ª classificata</span><div><span class="finale-badge">Ottavi</span></div></div>
+        <div class="partita-vs"><span class="squadre">6ª  <span class="vs-sep">vs</span> 11ª </span><div><span class="finale-badge">Gara 2</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
       <div class="partita-card">
         <span class="orario">17:00</span>
-        <div class="partita-vs"><span class="squadre">7ª classificata <span class="vs-sep">vs</span> 10ª classificata</span><div><span class="finale-badge">Ottavi</span></div></div>
+        <div class="partita-vs"><span class="squadre">7ª  <span class="vs-sep">vs</span> 10ª </span><div><span class="finale-badge">Gara 3</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
       <div class="partita-card">
         <span class="orario">18:00</span>
-        <div class="partita-vs"><span class="squadre">8ª classificata <span class="vs-sep">vs</span> 9ª classificata</span><div><span class="finale-badge">Ottavi</span></div></div>
+        <div class="partita-vs"><span class="squadre">8ª  <span class="vs-sep">vs</span> 9ª </span><div><span class="finale-badge">Gara 4</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
     </div>
@@ -881,22 +880,22 @@
       <div class="giorno-header">Venerdì 5 Giugno — Quarti di Finale</div>
       <div class="partita-card">
         <span class="orario">19:00</span>
-        <div class="partita-vs"><span class="squadre">1ª classificata <span class="vs-sep">vs</span> Vinc. 8ª–9ª</span><div><span class="finale-badge">Quarti</span></div></div>
+        <div class="partita-vs"><span class="squadre">1ª  <span class="vs-sep">vs</span> Vinc. Gara 4</span><div><span class="finale-badge">1° Quarto</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
       <div class="partita-card">
         <span class="orario">19:00</span>
-        <div class="partita-vs"><span class="squadre">2ª classificata <span class="vs-sep">vs</span> Vinc. 7ª–10ª</span><div><span class="finale-badge">Quarti</span></div></div>
+        <div class="partita-vs"><span class="squadre">2ª  <span class="vs-sep">vs</span> Vinc. Gara 3</span><div><span class="finale-badge">2° Quarto</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
       <div class="partita-card">
         <span class="orario">20:00</span>
-        <div class="partita-vs"><span class="squadre">3ª classificata <span class="vs-sep">vs</span> Vinc. 6ª–11ª</span><div><span class="finale-badge">Quarti</span></div></div>
+        <div class="partita-vs"><span class="squadre">3ª  <span class="vs-sep">vs</span> Vinc. Gara 2</span><div><span class="finale-badge">3° Quarto</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
       <div class="partita-card">
         <span class="orario">21:00</span>
-        <div class="partita-vs"><span class="squadre">4ª classificata <span class="vs-sep">vs</span> Vinc. 5ª–12ª</span><div><span class="finale-badge">Quarti</span></div></div>
+        <div class="partita-vs"><span class="squadre">4ª  <span class="vs-sep">vs</span> Vinc. Gara 1</span><div><span class="finale-badge">4° Quarto</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
     </div>
@@ -905,12 +904,12 @@
       <div class="giorno-header">Sabato 6 Giugno — Semifinali</div>
       <div class="partita-card">
         <span class="orario">17:00</span>
-        <div class="partita-vs"><span class="squadre">Vinc. 1ª/8°-9° <span class="vs-sep">vs</span> Vinc. 4ª/5°-12°</span><div><span class="finale-badge">Semifinale</span></div></div>
+        <div class="partita-vs"><span class="squadre">Vinc. 1° Quarto<span class="vs-sep">vs</span> Vinc. 4° Quarto</span><div><span class="finale-badge">Semifinale 1</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
       <div class="partita-card">
         <span class="orario">18:00</span>
-        <div class="partita-vs"><span class="squadre">Vinc. 2ª/7°-10° <span class="vs-sep">vs</span> Vinc. 3ª/6°-11°</span><div><span class="finale-badge">Semifinale</span></div></div>
+        <div class="partita-vs"><span class="squadre">Vinc. 2° Quarto<span class="vs-sep">vs</span> Vinc. 3° Quarto</span><div><span class="finale-badge">Semifinale 2</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
     </div>
