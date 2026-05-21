@@ -82,13 +82,14 @@ fetch("index.html")
         const squadre = card.querySelector('.squadre').textContent;
         const risultato = card.querySelector('.risultato-box').textContent;
         const orario = card.querySelector('.orario').textContent;
+		const giornata = card.querySelector('.partita-giornata')?.textContent || '';
 
         const div = document.createElement('div');
         div.className = 'partita';
         div.innerHTML = `
-          <strong>${orario}</strong> - ${squadre}<br>
-          Risultato: ${risultato}
-        `;
+		<strong>${orario}</strong> - ${squadre}<br>
+		<span style="color: #8a8fa8; font-size: 12px;">${giornata} </span> Risultato: ${risultato}
+		`;
 
         container.appendChild(div);
       }
