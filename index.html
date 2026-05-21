@@ -433,6 +433,11 @@
   .partita-vs {
     overflow: visible;        /* IMPORTANTISSIMO */
   }
+  
+  .partita-attiva {
+  box-shadow: 0 0 12px var(--gold); !important;
+  border: 1px solid var(--gold); !important;
+	}
 }
 </style>
 </head>
@@ -510,7 +515,7 @@
       <span class="squadre">STS <span class="vs-sep">vs</span> LUCENTO ROSSO</span>
       <span class="partita-giornata">3ª Giornata</span>
     </div>
-    <div class="risultato-box"><span class="risultato-num">6</span><span class="risultato-sep">-</span><span class="risultato-num">0</span></div>
+    <div class="risultato-box"><span class="risultato-num">3</span><span class="risultato-sep">-</span><span class="risultato-num">2</span></div>
   </div>
 
   <!-- ❌ SENZA RISULTATO -->
@@ -972,19 +977,25 @@ const SQUADRE = [
 
 function calcolaClassifica() {
   var stats = {};
-  SQUADRE.forEach(function(n) { stats[n] = { nome: n, g: 0, pt: 0, rf: 0, rs: 0 }; });
+  SQUADRE.forEach(function(n) {
+    stats[n] = { nome: n, g: 0, pt: 0, rf: 0, rs: 0 };
+  });
 
   document.querySelectorAll('#calendario .partita-card[data-casa]').forEach(function(card) {
     var casa   = card.dataset.casa;
     var ospite = card.dataset.ospite;
     var nums   = card.querySelectorAll('.risultato-num');
+
     if (nums.length < 2) return;
+
     var vC = nums[0].textContent.trim();
     var vO = nums[1].textContent.trim();
+
     if (vC === '' || vC === '–' || vO === '' || vO === '–') {
       card.querySelector('.risultato-box').classList.remove('match-done');
       return;
     }
+
     var gC = parseInt(vC, 10);
     var gO = parseInt(vO, 10);
     if (isNaN(gC) || isNaN(gO)) return;
@@ -992,13 +1003,18 @@ function calcolaClassifica() {
     card.querySelector('.risultato-box').classList.add('match-done');
 
     if (stats[casa]) {
-      stats[casa].g++;  stats[casa].rf += gC;  stats[casa].rs += gO;
-      if (gC > gO)       stats[casa].pt += 3;
+      stats[casa].g++;
+      stats[casa].rf += gC;
+      stats[casa].rs += gO;
+      if (gC > gO) stats[casa].pt += 3;
       else if (gC === gO) stats[casa].pt += 1;
     }
+
     if (stats[ospite]) {
-      stats[ospite].g++;  stats[ospite].rf += gO;  stats[ospite].rs += gC;
-      if (gO > gC)        stats[ospite].pt += 3;
+      stats[ospite].g++;
+      stats[ospite].rf += gO;
+      stats[ospite].rs += gC;
+      if (gO > gC) stats[ospite].pt += 3;
       else if (gO === gC) stats[ospite].pt += 1;
     }
   });
@@ -1025,8 +1041,10 @@ function calcolaClassifica() {
     var qualif = pos <= 12;
     var dr = sq.rf - sq.rs;
     var drStr = dr > 0 ? '+' + dr : String(dr);
+
     var tr = document.createElement('tr');
     tr.className = qualif ? 'row-qualif' : 'row-out';
+
     tr.innerHTML =
       '<td style="padding-left:10px; position:relative; white-space:nowrap;">' +
         (qualif ? '<span class="qualif-bar"></span>' : '') +
@@ -1038,19 +1056,66 @@ function calcolaClassifica() {
       '<td>' + sq.rf + '</td>' +
       '<td>' + sq.rs + '</td>' +
       '<td>' + drStr + '</td>';
+
     tbody.appendChild(tr);
   });
 }
 
-// Nav smooth scroll + active
+// ✅ NAV intelligente con scroll + highlight
 document.querySelectorAll('.nav-btn').forEach(function(btn) {
   btn.addEventListener('click', function(e) {
     e.preventDefault();
-    document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+
+    // active button
+    document.querySelectorAll('.nav-btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
     btn.classList.add('active');
-    var target = document.querySelector(btn.getAttribute('href'));
+
+    var href = btn.getAttribute('href');
+    var target = document.querySelector(href);
+
+    // 🎯 CASO CALENDARIO
+    if (href === '#calendario') {
+
+      // rimuove highlight vecchi
+      document.querySelectorAll('.partita-card').forEach(function(card) {
+        card.classList.remove('partita-attiva');
+      });
+
+      // trova prima partita non giocata
+      var prossima = Array.from(
+        document.querySelectorAll('#calendario .partita-card')
+      ).find(function(card) {
+        var nums = card.querySelectorAll('.risultato-num');
+        if (nums.length < 2) return false;
+
+        return nums[0].textContent.trim() === '–' ||
+               nums[1].textContent.trim() === '–';
+      });
+
+      // evidenzia
+      if (prossima) {
+        prossima.classList.add('partita-attiva');
+      }
+
+      // scroll
+      var scrollTarget = prossima || target;
+
+      window.scrollTo({
+        top: scrollTarget.offsetTop - 70,
+        behavior: 'smooth'
+      });
+
+      return;
+    }
+
+    // comportamento standard
     if (target) {
-      window.scrollTo({ top: target.offsetTop - 58, behavior: 'smooth' });
+      window.scrollTo({
+        top: target.offsetTop - 58,
+        behavior: 'smooth'
+      });
     }
   });
 });
