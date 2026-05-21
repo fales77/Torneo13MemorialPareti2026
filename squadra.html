@@ -107,15 +107,50 @@ fetch("index.html")
       if (casa === team || ospite === team) {
 
         const squadre = card.querySelector('.squadre').textContent;
-        const risultato = card.querySelector('.risultato-box').textContent;
         const orario = card.querySelector('.orario').textContent;
 		const giornata = card.querySelector('.partita-giornata')?.textContent || '';
+// Colorare il risultato
+		const casa = card.dataset.casa;
+const ospite = card.dataset.ospite;
+
+const nums = card.querySelectorAll('.risultato-num');
+
+let risultatoHtml = "Risultato: —";
+
+if (nums.length >= 2) {
+  const gC = nums[0].textContent.trim();
+  const gO = nums[1].textContent.trim();
+
+  const giocata = gC !== '–' && gO !== '–';
+
+  if (giocata) {
+    const golCasa = parseInt(gC, 10);
+    const golOspite = parseInt(gO, 10);
+
+    let colore = "#ffffff";
+
+    if (team === casa) {
+      if (golCasa > golOspite) colore = "#2ecc71";
+      else if (golCasa < golOspite) colore = "#e74c3c";
+      else colore = "#f5c842";
+    } else {
+      if (golOspite > golCasa) colore = "#2ecc71";
+      else if (golOspite < golCasa) colore = "#e74c3c";
+      else colore = "#f5c842";
+    }
+
+    risultatoHtml = `<span style="color:${colore}; font-weight:700;">
+      Risultato: ${golCasa}-${golOspite}
+    </span>`;
+  }
+}
+``
 
         const div = document.createElement('div');
         div.className = 'partita';
         div.innerHTML = `
 		<strong>${orario}</strong> - ${squadre}<br>
-		<span style="color: #8a8fa8; font-size: 12px;">${giornata} </span> Risultato: ${risultato}
+		<span style="color: #8a8fa8; font-size: 12px;">${giornata} </span> ${risultatoHtml}
 		`;
 
         container.appendChild(div);
