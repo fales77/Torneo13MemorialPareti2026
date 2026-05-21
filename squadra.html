@@ -28,28 +28,55 @@ h1 {
   position: fixed;
   top: 15px;
   left: 15px;
-  background: #f5c842;   /* giallo */
-  color: #0a1628;        /* blu scuro */
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: #f5c842;
+  color: #0a1628;
+
+  padding: 6px 10px;        /* 👈 più compatto */
+  border-radius: 6px;
+
   font-weight: 700;
-  padding: 10px 14px;
-  border-radius: 8px;
   text-decoration: none;
-  font-size: 14px;
+
   z-index: 1000;
 }
 
-/* 👇 QUESTO È QUELLO CHE TI MANCA */
+/* hover fix (importantissimo) */
 .back-btn:hover {
   background: #fde98a;
-  color: #0a1628;  /* rimane scuro */
+  color: #0a1628;
   text-decoration: none;
+}
+
+/* freccia bella grossa */
+.back-btn .arrow {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* testo un filo più grande */
+.back-btn .label {
+  font-size: 14px;
+}
+
+h1 {
+  margin-top: 35px;
 }
 
 </style>
 </head>
 
 <body>
-<a href="javascript:history.back()" class="back-btn">← Torna</a>
+
+<a href="javascript:history.back()" class="back-btn">
+  <span class="arrow">←</span>
+  <span class="label">Torna</span>
+</a>
+
 
 <h1 id="titolo"></h1>
 
