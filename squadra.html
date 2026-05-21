@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dettaglio Squadra</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #0a1628;
+  color: white;
+  padding: 20px;
+}
+
+h1 {
+  color: #f5c842;
+}
+
+.partita {
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="titolo"></h1>
+
+<div id="lista-partite"></div>
+
+<script>
+// prende nome squadra da URL
+const params = new URLSearchParams(window.location.search);
+const team = params.get("team");
+
+document.getElementById("titolo").textContent = team;
+
+// prende tutte le partite dalla pagina principale
+fetch("index.html")
+  .then(res => res.text())
+  .then(html => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    const partite = doc.querySelectorAll('.partita-card');
+
+    const container = document.getElementById("lista-partite");
+
+    partite.forEach(card => {
+      const casa = card.dataset.casa;
+      const ospite = card.dataset.ospite;
+
+      if (casa === team || ospite === team) {
+
+        const squadre = card.querySelector('.squadre').textContent;
+        const risultato = card.querySelector('.risultato-box').textContent;
+        const orario = card.querySelector('.orario').textContent;
+
+        const div = document.createElement('div');
+        div.className = 'partita';
+        div.innerHTML = `
+          <strong>${orario}</strong> - ${squadre}<br>
+          Risultato: ${risultato}
+        `;
+
+        container.appendChild(div);
+      }
+    });
+
+  });
+</script>
+
+</body>
+</html>
