@@ -1050,7 +1050,7 @@ function calcolaClassifica() {
         (qualif ? '<span class="qualif-bar"></span>' : '') +
         '<span class="pos-num ' + numClass + '">' + pos + '</span>' +
       '</td>' +
-      '<td class="team-name">' + sq.nome + '</td>' +
+     '<td class="team-name"><a href="squadra.html?team=' + encodeURIComponent(sq.nome) + '">' + sq.nome + '</a></td>' +
       '<td style="font-weight:700; color:var(--gold)">' + sq.pt + '</td>' +
       '<td>' + sq.g + '</td>' +
       '<td>' + sq.rf + '</td>' +
