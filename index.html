@@ -1151,7 +1151,13 @@ function popolaQuarti() {
   const quarti = document.querySelectorAll('#quarti .partita-card');
   const c = window.CLASSIFICA;
 
-  const mappa = [3, 2, 1, 0]; // collegamento ottavi → quarti
+  // 🔥 CORREZIONE QUI
+  const mappa = [
+    3, // gara 1 → 4° quarto ✅
+    2, // gara 2 → 3° quarto
+    1, // gara 3 → 2° quarto
+    0  // gara 4 → 1° quarto
+  ];
 
   ottavi.forEach((card, i) => {
 
@@ -1160,6 +1166,8 @@ function popolaQuarti() {
 
     const indexQuarto = mappa[i];
     const quarto = quarti[indexQuarto];
+
+    if (!quarto) return;
 
     const top = c[indexQuarto].nome;
     const span = quarto.querySelector('.squadre');
