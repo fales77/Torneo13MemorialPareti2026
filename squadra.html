@@ -83,117 +83,74 @@ h1 {
 <div id="lista-partite"></div>
 
 <script>
-// prende nome squadra da URL
+// 🔹 prende nome squadra da URL
 const params = new URLSearchParams(window.location.search);
 const team = params.get("team");
 
+// 🔹 titolo pagina
 document.getElementById("titolo").textContent = team;
 
-// prende tutte le partite dalla pagina principale
-fetch("index.html")
-  .then(res => res.text())
-  .then(html => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-
-    const partite = doc.querySelectorAll('.partita-card');
-
-    const container = document.getElementById("lista-partite");
-
-    partite.forEach(card => {
-      const casa = card.dataset.casa;
-      const ospite = card.dataset.ospite;
-
-      if (casa === team || ospite === team) {
-
-        const squadre = card.querySelector('.squadre').textContent;
-        const orario = card.querySelector('.orario').textContent;
-		const giornata = card.querySelector('.partita-giornata')?.textContent || '';
-// Colorare il risultato
-		const casa = card.dataset.casa;
-const ospite = card.dataset.ospite;
-
-const nums = card.querySelectorAll('.risultato-num');
-
-let risultatoHtml = "Risultato: —";
-
-if (nums.length >= 2) {
-  const gC = nums[0].textContent.trim();
-  const gO = nums[1].textContent.trim();
-
-  const giocata = gC !== '–' && gO !== '–';
-
-  if (giocata) {
-    const golCasa = parseInt(gC, 10);
-    const golOspite = parseInt(gO, 10);
-
-    let colore = "#ffffff";
-
-    if (team === casa) {
-      if (golCasa > golOspite) colore = "#2ecc71";
-      else if (golCasa < golOspite) colore = "#e74c3c";
-      else colore = "#f5c842";
-    } else {
-      if (golOspite > golCasa) colore = "#2ecc71";
-      else if (golOspite < golCasa) colore = "#e74c3c";
-      else colore = "#f5c842";
-    }
-
-    risultatoHtml = `<span style="color:${colore}; font-weight:700;">
-      Risultato: ${golCasa}-${golOspite}
-    </span>`;
-  }
-}
-``
-        const div = document.createElement('div');
-        div.className = 'partita';
-        div.innerHTML = `
-		<strong>${orario}</strong> - ${squadre}<br>
-		<span style="color: #8a8fa8; font-size: 12px;">${giornata} </span> ${risultatoHtml}
-		`;
-
-        container.appendChild(div);
-      }
-    });
-  });
-  fetch('risultati.json')
+// 🔹 carica risultati da JSON
+fetch('risultati.json')
   .then(res => res.json())
   .then(data => {
 
-    const params = new URLSearchParams(window.location.search);
-    const team = params.get('team');
-
     if (!team) return;
 
+    const container = document.getElementById("lista-partite");
+    container.innerHTML = '';
+
+    // 🔹 filtra partite della squadra
     const partite = data.filter(m =>
       m.casa === team || m.trasferta === team
     );
 
-    const container = document.getElementById('elenco-partite');
-    container.innerHTML = '';
-
+    // 🔹 costruisce lista
     partite.forEach(m => {
-
-      const casa = m.casa;
-      const ospite = m.trasferta;
 
       const gC = m.golCasa;
       const gO = m.golTrasferta;
 
+      let risultatoHtml = "Risultato: —";
+
+      if (gC !== null && gO !== null) {
+
+        let colore = "#ffffff";
+
+        // 🔹 squadra gioca in casa
+        if (team === m.casa) {
+          if (gC > gO) colore = "#2ecc71";     // vittoria → verde
+          else if (gC < gO) colore = "#e74c3c"; // sconfitta → rosso
+          else colore = "#f5c842";             // pareggio → giallo
+        }
+        // 🔹 squadra gioca in trasferta
+        else {
+          if (gO > gC) colore = "#2ecc71";
+          else if (gO < gC) colore = "#e74c3c";
+          else colore = "#f5c842";
+        }
+
+        risultatoHtml = `
+          <span style="color:${colore}; font-weight:700;">
+            Risultato: ${gC}-${gO}
+          </span>
+        `;
+      }
+
+      // 🔹 crea blocco partita
       const div = document.createElement('div');
-      div.className = 'partita-card';
+      div.className = 'partita';
 
       div.innerHTML = `
-        <span>${casa} vs ${ospite}</span>
-        <div>
-          ${gC !== null ? gC : '–'} - ${gO !== null ? gO : '–'}
-        </div>
+        <strong>${m.casa} vs ${m.trasferta}</strong><br>
+        ${risultatoHtml}
       `;
 
       container.appendChild(div);
     });
 
-  });
+  })
+  .catch(err => console.error("Errore caricamento JSON:", err));
 </script>
 
 </body>
