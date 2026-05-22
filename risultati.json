@@ -32,9 +32,10 @@
   { "id": "match28", "casa": "AUTOVIP S.M.", "trasferta": "POZZOMAINA", "golCasa": 1, "golTrasferta": 2 },
   { "id": "match29", "casa": "CIT TURIN", "trasferta": "SETTIMO", "golCasa": 3, "golTrasferta": 1 },
   { "id": "match30", "casa": "BORGARO", "trasferta": "CHISOLA", "golCasa": 1, "golTrasferta": 3 },
+  { "id": "match61", "casa": "PINEROLO", "trasferta": "SISPORT", "golCasa": 1, "golTrasferta": 3 },
   { "id": "match31", "casa": "LUCENTO BLU", "trasferta": "BARRIERA DI LANZO", "golCasa": 2, "golTrasferta": 0 },
-  { "id": "match32", "casa": "PRO COLLEGNO", "trasferta": "SISPORT", "golCasa": 1, "golTrasferta": 2 },
-  { "id": "match33", "casa": "VANCHIGLIA", "trasferta": "LUCENTO ROSSO", "golCasa": 2, "golTrasferta": 3 },
+  { "id": "match32", "casa": "VANCHIGLIA", "trasferta": "LUCENTO ROSSO", "golCasa": 2, "golTrasferta": 3 },
+  { "id": "match33", "casa": "PRO COLLEGNO", "trasferta": "CENTROCAMPO", "golCasa": 1, "golTrasferta": 2 },
   { "id": "match34", "casa": "STS", "trasferta": "LASCARIS", "golCasa": 2, "golTrasferta": 1 },
   { "id": "match35", "casa": "LUCENTO ROSA", "trasferta": "P. BRUINESE", "golCasa": 1, "golTrasferta": 2 },
 
