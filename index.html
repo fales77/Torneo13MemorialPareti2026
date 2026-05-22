@@ -868,7 +868,7 @@
     <div class="sezione-titolo">🎯 Fasi Finali</div>
     <div class="info-box">In caso di pareggio al termine dei tempi regolamentari passa la migliore classificata.</div>
 
-    <div class="giorno-block">
+    <div class="giorno-block" id="ottavi">
       <div class="giorno-header">Martedì 2 Giugno — "Ottavi di Finale"</div>
       <div class="partita-card">
         <span class="orario">15:00</span>
@@ -892,7 +892,8 @@
       </div>
     </div>
 
-    <div class="giorno-block">
+    
+<div class="giorno-block" id="quarti">
       <div class="giorno-header">Venerdì 5 Giugno — Quarti di Finale</div>
       <div class="partita-card">
         <span class="orario">19:00</span>
@@ -916,7 +917,8 @@
       </div>
     </div>
 
-    <div class="giorno-block">
+    
+<div class="giorno-block" id="semifinali">
       <div class="giorno-header">Sabato 6 Giugno — Semifinali</div>
       <div class="partita-card">
         <span class="orario">17:00</span>
@@ -962,7 +964,7 @@
       <div class="squadra-card"><span class="squadra-num">10</span><span class="squadra-nome">SISPORT</span></div>
       <div class="squadra-card"><span class="squadra-num">11</span><span class="squadra-nome">CIT TURIN</span></div>
       <div class="squadra-card"><span class="squadra-num">12</span><span class="squadra-nome">PRO COLLEGNO</span></div>
-      <div class="squadra-card"><span class="squadra-num">13</span><span class="squadra-nome">BRUINESE</span></div>
+      <div class="squadra-card"><span class="squadra-num">13</span><span class="squadra-nome">P. BRUINESE</span></div>
       <div class="squadra-card"><span class="squadra-num">14</span><span class="squadra-nome">LUCENTO VERDE</span></div>
       <div class="squadra-card"><span class="squadra-num">15</span><span class="squadra-nome">LUCENTO BLU</span></div>
       <div class="squadra-card"><span class="squadra-num">16</span><span class="squadra-nome">CARRARA</span></div>
@@ -1069,6 +1071,51 @@ function calcolaClassifica() {
 
     tbody.appendChild(tr);
   });
+  window.CLASSIFICA = sorted;
+}
+
+// ✅ Calcola Ottavi
+function popolaOttavi() {
+
+  // ✅ controllo: calendario completo?
+  const partiteGiocate = document.querySelectorAll(
+    '#calendario .risultato-box.match-done'
+  ).length;
+
+  const totalePartite = document.querySelectorAll(
+    '#calendario .partita-card[data-casa]'
+  ).length;
+
+  if (partiteGiocate < totalePartite) {
+    return; // ❌ non fare nulla
+  }
+
+  const c = window.CLASSIFICA;
+  if (!c || c.length < 12) return;
+
+  const matches = [
+    [4,11],
+    [5,10],
+    [6,9],
+    [7,8]
+  ];
+
+  const cards = document.querySelectorAll('#ottavi .partita-card');
+
+  matches.forEach((m, i) => {
+    const casa = c[m[0]].nome;
+    const ospite = c[m[1]].nome;
+
+    const card = cards[i];
+    if (!card) return;
+
+    const span = card.querySelector('.squadre');
+
+    span.innerHTML = `${casa} <span class="vs-sep">vs</span> ${ospite}`;
+
+    card.dataset.casa = casa;
+    card.dataset.ospite = ospite;
+  });
 }
 
 // ✅ NAV intelligente con scroll + highlight
@@ -1158,7 +1205,7 @@ fetch('risultati.json')
 
     // 🔥 aggiorna classifica dopo aver caricato JSON
     calcolaClassifica();
-
+	popolaOttavi();
   })
   .catch(error => console.error('Errore:', error));
 ``
