@@ -305,7 +305,7 @@
     text-overflow: ellipsis;
   }
   .vs-sep {
-    color: var(--gold);
+    color: #888;
     font-family: 'Barlow Condensed', sans-serif;
     font-style: italic;
     font-size: 0.85rem;
@@ -931,15 +931,15 @@
     </div>
 
     <div class="giorno-block">
-      <div class="giorno-header">Domenica 7 Giugno — Finalissima</div>
+      <div class="giorno-header">Domenica 7 Giugno — Finalissime</div>
       <div class="partita-card">
         <span class="orario">17:00</span>
-        <div class="partita-vs"><span class="squadre">3° posto <span class="vs-sep">vs</span> 4° posto</span><div><span class="finale-badge" style="background:#8a8fa8; color:#fff;">Finale 3°–4° Posto</span></div></div>
+        <div class="partita-vs"><span class="squadre">Perd. Semif. 1<span class="vs-sep">vs</span>Perd. Semif. 2</span><div><span class="finale-badge" style="background:#8a8fa8; color:#fff;">Finale 3°/4° Posto</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
       <div class="partita-card finalissima">
         <span class="orario">18:00</span>
-        <div class="partita-vs"><span class="squadre" style="color:var(--gold-light); font-weight:700;">1° posto <span class="vs-sep">vs</span> 2° posto</span><div><span class="finale-badge">⭐ Finalissima</span></div></div>
+        <div class="partita-vs"><span class="squadre" style="color:var(--gold-light); font-weight:700;">Vinc. Semif. 1<span class="vs-sep">vs</span>Vinc. Semif. 2</span><div><span class="finale-badge">⭐ Finalissima</span></div></div>
         <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
       </div>
     </div>
@@ -1130,8 +1130,39 @@ document.querySelectorAll('.nav-btn').forEach(function(btn) {
   });
 });
 
-// Avvio
-window.addEventListener('load', calcolaClassifica);
+fetch('risultati.json')
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(match => {
+
+      // trova la partita giusta usando data-casa e data-ospite
+      const card = document.querySelector(
+        `.partita-card[data-casa="${match.casa}"][data-ospite="${match.trasferta}"]`
+      );
+
+      if (!card) return;
+
+      const numeri = card.querySelectorAll('.risultato-num');
+      if (numeri.length < 2) return;
+
+      // gestisce partite non giocate
+      if (match.golCasa === null || match.golTrasferta === null) {
+        numeri[0].textContent = '–';
+        numeri[1].textContent = '–';
+      } else {
+        numeri[0].textContent = match.golCasa;
+        numeri[1].textContent = match.golTrasferta;
+      }
+
+    });
+
+    // 🔥 aggiorna classifica dopo aver caricato JSON
+    calcolaClassifica();
+
+  })
+  .catch(error => console.error('Errore:', error));
+``
+
 </script>
 </body>
 </html>
