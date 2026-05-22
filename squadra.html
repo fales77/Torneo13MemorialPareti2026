@@ -145,7 +145,6 @@ if (nums.length >= 2) {
   }
 }
 ``
-
         const div = document.createElement('div');
         div.className = 'partita';
         div.innerHTML = `
@@ -155,6 +154,43 @@ if (nums.length >= 2) {
 
         container.appendChild(div);
       }
+    });
+  });
+  fetch('risultati.json')
+  .then(res => res.json())
+  .then(data => {
+
+    const params = new URLSearchParams(window.location.search);
+    const team = params.get('team');
+
+    if (!team) return;
+
+    const partite = data.filter(m =>
+      m.casa === team || m.trasferta === team
+    );
+
+    const container = document.getElementById('elenco-partite');
+    container.innerHTML = '';
+
+    partite.forEach(m => {
+
+      const casa = m.casa;
+      const ospite = m.trasferta;
+
+      const gC = m.golCasa;
+      const gO = m.golTrasferta;
+
+      const div = document.createElement('div');
+      div.className = 'partita-card';
+
+      div.innerHTML = `
+        <span>${casa} vs ${ospite}</span>
+        <div>
+          ${gC !== null ? gC : '–'} - ${gO !== null ? gO : '–'}
+        </div>
+      `;
+
+      container.appendChild(div);
     });
 
   });
