@@ -1,158 +1,124 @@
-***
-
-# 📄 README.md
-
-````markdown
 # 🏆 13° Memorial Sergio Pareti 2026
 
-Applicazione web semplice e responsive per la gestione e visualizzazione del torneo **13° Memorial Sergio Pareti** – categoria **Esordienti 1° anno (Under 12)**.
+Applicazione web responsive per la gestione e visualizzazione del torneo **13° Memorial Sergio Pareti** – categoria **Esordienti 1° anno (Under 12)**, organizzato dall'**A.C.D. Lucento** di Torino.
 
-Realizzata interamente in **HTML, CSS e JavaScript vanilla**, senza framework esterni.
+Realizzata interamente in **HTML, CSS e JavaScript vanilla**, senza framework o dipendenze esterne (eccetto Google Fonts).
 
 ---
 
-## ⚽ Struttura della pagina
+## 📁 Struttura dei file
 
-La pagina è suddivisa in 4 sezioni principali:
+```
+index.html          → Pagina principale del torneo
+risultati.json      → File dati con i risultati delle partite
+squadra.html        → (collegato) Pagina di dettaglio singola squadra
+```
 
-- 🏆 **Classifica**
-- 📅 **Calendario**
-- 🎯 **Fasi finali**
-- 👕 **Squadre**
+---
 
-Navigabili tramite tab sticky in alto.
+## ⚽ Sezioni della pagina
+
+La pagina è divisa in 4 sezioni, navigabili tramite una **barra di navigazione sticky** in cima:
+
+| Sezione | Contenuto |
+|---|---|
+| 🏆 Classifica | Graduatoria automatica aggiornata in tempo reale |
+| 📅 Calendario | Tutte le partite del girone con orari e risultati |
+| 🎯 Fasi Finali | Ottavi, quarti, semifinali e finalissima |
+| 👕 Squadre | Elenco delle 20 squadre partecipanti |
 
 ---
 
 ## 🏆 Classifica automatica
 
-La classifica viene calcolata automaticamente a partire dai risultati inseriti nel calendario.
+La classifica viene calcolata in JavaScript a partire dai risultati caricati da `risultati.json`, senza alcun dato hardcoded.
 
-### Logica di calcolo:
+**Punteggio:**
+- Vittoria → **3 punti**
+- Pareggio → **1 punto**
+- Sconfitta → **0 punti**
 
-- ✅ Vittoria → 3 punti  
-- ✅ Pareggio → 1 punto  
-- ✅ Sconfitta → 0 punti  
-
-### Ordinamento:
-
+**Criteri di ordinamento (in caso di parità):**
 1. Punti
-2. Differenza reti (DR)
+2. Differenza reti (RF − RS)
 3. Reti fatte (RF)
 4. Ordine alfabetico
 
+Le **prime 12 classificate** accedono alle fasi finali (evidenziate con bordo verde).
+
 ---
 
-## 📅 Inserimento risultati
+## 📅 Calendario e risultati
 
-I risultati vengono inseriti **direttamente nell’HTML**, quindi:
+Le partite coprono **6 giornate** (dal 16 maggio al 31 maggio 2026), con partite distribuite su sabati, domeniche e qualche lunedì e venerdì.
 
-```html
-<span class="risultato-num">3</span>
-<span class="risultato-sep">-</span>
-<span class="risultato-num">1</span>
-````
+I risultati vengono caricati da `risultati.json`. Ogni voce ha questa struttura:
 
-### Partite non giocate:
-
-
-
-👉 Il trattino lungo (`–`) indica partita non disputata\
-👉 Queste partite NON vengono considerate nel calcolo
-
-***
-
-## ⚙️ Funzionamento JavaScript
-
-La funzione principale:
-
-```javascript
-calcolaClassifica()
+```json
+{
+  "casa": "LASCARIS",
+  "trasferta": "CIT TURIN",
+  "golCasa": 5,
+  "golTrasferta": 0
+}
 ```
 
-*   Scansiona tutte le partite
-*   Legge i risultati
-*   Aggiorna le statistiche di ogni squadra
-*   Genera dinamicamente la classifica
+Se `golCasa` o `golTrasferta` sono `null`, la partita viene mostrata come non ancora disputata (`–`).
 
-La classifica viene calcolata automaticamente al caricamento della pagina:
+Le partite con risultato vengono marcate con la classe CSS `match-done`, che cambia il colore del punteggio in oro.
 
-```javascript
-window.addEventListener('load', calcolaClassifica);
-```
+**Navigazione intelligente al Calendario:** cliccando su "Calendario" nella nav, la pagina scorre automaticamente alla prima partita non ancora disputata, evidenziata con un bordo dorato lampeggiante (`.partita-attiva`).
 
-***
+---
 
-## 🎨 UI / UX
+## 🎯 Fasi Finali — logica di popolamento automatico
 
-### Layout responsive
+Le fasi finali si popolano **dinamicamente** al termine del girone, seguendo questa catena:
 
-*   Ottimizzato per **mobile e desktop**
-*   Uso di `flex` e `grid` per allineamenti perfetti
+### Ottavi di Finale (2 Giugno)
+- Si attivano solo **quando tutte le partite del calendario sono state giocate**
+- Gli accoppiamenti sono: 5ª vs 12ª, 6ª vs 11ª, 7ª vs 10ª, 8ª vs 9ª
 
-### Migliorie implementate:
+### Quarti di Finale (5 Giugno)
+- Le teste di serie (1ª–4ª) affrontano le vincitrici degli ottavi
+- Abbinamenti: 1ª vs Vinc. Gara 4, 2ª vs Vinc. Gara 3, 3ª vs Vinc. Gara 2, 4ª vs Vinc. Gara 1
 
-*   ✅ Navigazione sticky
-*   ✅ Allineamento risultati stile app sportiva
-*   ✅ Trattino centrato fisso tra i punteggi
-*   ✅ Supporto numeri a doppia cifra senza rottura layout
-*   ✅ Gestione nomi lunghi (wrap su mobile)
+### Semifinali (6 Giugno)
+- Vinc. 1° Quarto vs Vinc. 4° Quarto
+- Vinc. 2° Quarto vs Vinc. 3° Quarto
 
-***
+### Finalissima (7 Giugno)
+- Finale 3°/4° posto tra i perdenti delle semifinali
+- **Finalissima** tra i vincitori delle semifinali (con animazione glow dorata)
 
-## 📊 Struttura dati squadre
+**Regola pareggi nelle fasi finali:** in caso di parità al 90', passa la squadra **meglio classificata nel girone**.
 
-Le squadre sono definite nel codice:
+---
 
-```javascript
-const SQUADRE = [
-  "PINEROLO",
-  "AUTOVIP S.M.",
-  ...
-];
-```
+## 🎨 Design e stile
 
-***
+- Tema **dark** con palette blu navy e oro, ispirata alla Champions League
+- Font: **Barlow Condensed** (titoli/numeri) e **Barlow** (testo), via Google Fonts
+- Completamente **responsive** con breakpoint a 480px per schermi mobile
+- Animazione `glow` sulla card della Finalissima
+- I nomi squadra in classifica sono **link** verso la pagina di dettaglio (`squadra.html?team=NOME`)
 
-## 🚀 Come usare la pagina
+---
 
-1.  Aprire il file `index.html`
-2.  Inserire i risultati modificando l’HTML
-3.  Salvare
-4.  Ricaricare la pagina
+## 🔧 Come aggiornare i risultati
 
-👉 La classifica si aggiorna automaticamente
+1. Aprire `risultati.json`
+2. Aggiungere o modificare una voce con i gol della partita
+3. Salvare — la classifica e le fasi finali si aggiornano automaticamente al caricamento della pagina
 
-***
+Non è necessario modificare `index.html` per inserire risultati.
 
-## 🛠 Tecnologie utilizzate
+---
 
-*   HTML5
-*   CSS3 (Flexbox + Grid)
-*   JavaScript Vanilla
+## 👥 20 Squadre partecipanti
 
-***
+Pinerolo · Autovip S.M. · Chisola · Vanchiglia · STS · Lucento Rosso · Lascaris · Borgaro · Pozzomaina · Sisport · Cit Turin · Pro Collegno · P. Bruinese · Lucento Verde · Lucento Blu · Carrara · Centrocampo · Barriera di Lanzo · Settimo · Lucento Rosa
 
-## ✨ Possibili sviluppi futuri
+---
 
-*   🎯 Evidenziazione automatica risultati (vittoria/sconfitta)
-*   📊 Salvataggio dati (localStorage o backend)
-*   📱 UI stile app (layout verticale squadre)
-*   🧮 Tiebreak avanzati (scontri diretti)
-
-***
-
-## 📍 Autore Alessandro FAGA
-
-Progetto realizzato per il torneo:
-
-**A.C.D. Lucento – Torino**
-
-***
-
-## 🏁 Note
-
-Questo progetto è volutamente **leggero e autonomo**, senza dipendenze esterne, per essere facilmente modificabile anche senza conoscenze avanzate di sviluppo web.
-
-
-
+*Organizzazione: A.C.D. Lucento · Torino · Maggio–Giugno 2026*
