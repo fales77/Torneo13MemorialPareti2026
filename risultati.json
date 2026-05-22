@@ -14,7 +14,7 @@
   { "id": "match13", "casa": "BORGARO", "trasferta": "SETTIMO", "golCasa": 2, "golTrasferta": 1 },
   { "id": "match14", "casa": "AUTOVIP S.M.", "trasferta": "CHISOLA", "golCasa": 1, "golTrasferta": 3 },
   { "id": "match15", "casa": "AUTOVIP S.M.", "trasferta": "PINEROLO", "golCasa": 1, "golTrasferta": 2 },
-  { "id": "match16", "casa": "STS", "trasferta": "CARRARA", "golCasa": null, "golTrasferta": null },
+  { "id": "match16", "casa": "STS", "trasferta": "CARRARA", "golCasa": 7, "golTrasferta": 0 },
   { "id": "match17", "casa": "PINEROLO", "trasferta": "CIT TURIN", "golCasa": null, "golTrasferta": null },
   { "id": "match18", "casa": "CHISOLA", "trasferta": "P. BRUINESE", "golCasa": null, "golTrasferta": null },
   { "id": "match19", "casa": "SISPORT", "trasferta": "LUCENTO BLU", "golCasa": null, "golTrasferta": null },
