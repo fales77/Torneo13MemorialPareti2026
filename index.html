@@ -1118,6 +1118,58 @@ function popolaOttavi() {
   });
 }
 
+//  INIZIA A POPOLARE QUARTI
+function inizializzaQuarti() {
+
+  if (!window.CLASSIFICA) return;
+
+  const c = window.CLASSIFICA;
+  const quarti = document.querySelectorAll('#quarti .partita-card');
+
+  const labels = [
+    "Vinc. Gara 4",
+    "Vinc. Gara 3",
+    "Vinc. Gara 2",
+    "Vinc. Gara 1"
+  ];
+
+  quarti.forEach((card, i) => {
+    const top = c[i].nome;
+    const span = card.querySelector('.squadre');
+
+    span.innerHTML = `${top} <span class="vs-sep">vs</span> ${labels[i]}`;
+
+    // salva comunque la testa di serie
+    card.dataset.casa = top;
+  });
+}
+//  POPOLA QUARTI
+function popolaQuarti() {
+
+  const ottavi = document.querySelectorAll('#ottavi .partita-card');
+  const quarti = document.querySelectorAll('#quarti .partita-card');
+  const c = window.CLASSIFICA;
+
+  const mappa = [3, 2, 1, 0]; // collegamento ottavi → quarti
+
+  ottavi.forEach((card, i) => {
+
+    const vincitore = getVincitore(card);
+    if (!vincitore) return;
+
+    const indexQuarto = mappa[i];
+    const quarto = quarti[indexQuarto];
+
+    const top = c[indexQuarto].nome;
+    const span = quarto.querySelector('.squadre');
+
+    span.innerHTML = `${top} <span class="vs-sep">vs</span> ${vincitore}`;
+
+    quarto.dataset.ospite = vincitore;
+
+  });
+}
+
 // ✅ NAV intelligente con scroll + highlight
 document.querySelectorAll('.nav-btn').forEach(function(btn) {
   btn.addEventListener('click', function(e) {
@@ -1206,6 +1258,8 @@ fetch('risultati.json')
     // 🔥 aggiorna classifica dopo aver caricato JSON
     calcolaClassifica();
 	popolaOttavi();
+	inizializzaQuarti();   // ✅ subito
+	popolaQuarti();        // ✅ poi aggiorna dinamicamente
   })
   .catch(error => console.error('Errore:', error));
 ``
