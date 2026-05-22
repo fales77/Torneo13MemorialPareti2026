@@ -278,7 +278,13 @@
     border: 1px solid rgba(245,200,66,0.4);
     background: linear-gradient(90deg, rgba(20,32,64,1) 0%, rgba(30,45,85,1) 100%);
     box-shadow: 0 0 15px rgba(245,200,66,0.05);
+	animation: glow 2s infinite alternate;
   }
+  
+@keyframes glow {
+  from { box-shadow: 0 0 5px var(--gold); }
+  to   { box-shadow: 0 0 20px var(--gold); }
+}
 
   .orario {
     font-family: 'Barlow Condensed', sans-serif;
@@ -933,7 +939,7 @@
       </div>
     </div>
 
-    <div class="giorno-block">
+    <div class="giorno-block" id="finali-finali">
       <div class="giorno-header">Domenica 7 Giugno — Finalissime</div>
       <div class="partita-card" data-casa="" data-ospite="">
         <span class="orario">17:00</span>
@@ -1205,6 +1211,57 @@ function popolaQuarti() {
 
   });
 }
+//  POPOLA SEMIFINALI
+function popolaSemifinali() {
+
+  const quarti = document.querySelectorAll('#quarti .partita-card');
+  const semifinali = document.querySelectorAll('#semifinali .partita-card');
+
+  if (quarti.length < 4) return;
+
+  const vincitori = Array.from(quarti).map(q => getVincitore(q));
+
+  // non blocca tutto → aggiorna solo se disponibile
+  if (vincitori[0] && vincitori[3]) {
+    aggiornaPartita(semifinali[0], vincitori[0], vincitori[3]);
+  }
+
+  if (vincitori[1] && vincitori[2]) {
+    aggiornaPartita(semifinali[1], vincitori[1], vincitori[2]);
+  }
+}
+
+//  POPOLA FINALI
+function popolaFinale() {
+
+  const semifinali = document.querySelectorAll('#semifinali .partita-card');
+  const finali = document.querySelectorAll('#finali-finali .partita-card');
+
+  if (semifinali.length < 2) return;
+
+  const v1 = getVincitore(semifinali[0]);
+  const v2 = getVincitore(semifinali[1]);
+
+  if (v1 && v2) {
+    aggiornaPartita(finali[1], v1, v2); // finale
+  }
+
+  // opzionale → terzo posto
+  const s1 = semifinali[0].dataset;
+  const s2 = semifinali[1].dataset;
+
+  const g1 = getGol(semifinali[0]);
+  const g2 = getGol(semifinali[1]);
+
+  if (g1 && g2) {
+    const perdenti = [
+      g1.vincitore === s1.casa ? s1.ospite : s1.casa,
+      g2.vincitore === s2.casa ? s2.ospite : s2.casa
+    ];
+
+    aggiornaPartita(finali[0], perdenti[0], perdenti[1]);
+  }
+}
 
 // ✅ NAV intelligente con scroll + highlight
 document.querySelectorAll('.nav-btn').forEach(function(btn) {
@@ -1296,6 +1353,8 @@ fetch('risultati.json')
 	popolaOttavi();
 	inizializzaQuarti();   // ✅ subito
 	popolaQuarti();        // ✅ poi aggiorna dinamicamente
+	popolaSemifinali();
+	popolaFinale();
   })
   .catch(error => console.error('Errore:', error));
 ``
