@@ -105,6 +105,33 @@ Le fasi finali si popolano **dinamicamente** al termine del girone, seguendo que
 
 ---
 
+## 📋 Pagina dettaglio squadra (`squadra.html`)
+
+Ogni squadra in classifica è un link cliccabile che apre la pagina di dettaglio della singola squadra:
+
+```
+squadra.html?team=NOME_SQUADRA
+```
+
+### Funzionamento
+
+La pagina legge il parametro `team` dall'URL, poi esegue un `fetch("index.html")` per estrarre dinamicamente tutte le partite che coinvolgono quella squadra, senza duplicare dati.
+
+Per ogni partita vengono mostrati:
+- Orario e avversario
+- Giornata di riferimento
+- Risultato **colorato** in base all'esito per quella squadra:
+  - 🟢 Verde → vittoria
+  - 🔴 Rosso → sconfitta
+  - 🟡 Giallo → pareggio
+  - Trattino `—` → partita non ancora disputata
+
+### Navigazione
+
+Un pulsante **"← Torna"** fisso in alto a sinistra riporta alla pagina precedente (`history.back()`), compatibile sia con la navigazione da classifica che da qualsiasi altra origine.
+
+---
+
 ## 🔧 Come aggiornare i risultati
 
 1. Aprire `risultati.json`
