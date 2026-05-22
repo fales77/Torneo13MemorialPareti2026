@@ -1144,6 +1144,33 @@ function inizializzaQuarti() {
     card.dataset.casa = top;
   });
 }
+
+// funzione getVincitore() → quindi popolaQuarti()
+function getVincitore(card) {
+  const casa = card.dataset.casa;
+  const ospite = card.dataset.ospite;
+
+  if (!casa || !ospite) return null;
+
+  const nums = card.querySelectorAll('.risultato-num');
+  if (nums.length < 2) return null;
+
+  const gC = parseInt(nums[0].textContent.trim());
+  const gO = parseInt(nums[1].textContent.trim());
+
+  if (isNaN(gC) || isNaN(gO)) return null;
+
+  if (gC > gO) return casa;
+  if (gO > gC) return ospite;
+
+  // pareggio → passa meglio classificata
+  const c = window.CLASSIFICA;
+  const posCasa = c.findIndex(s => s.nome === casa);
+  const posOspite = c.findIndex(s => s.nome === ospite);
+
+  return posCasa < posOspite ? casa : ospite;
+}
+
 //  POPOLA QUARTI
 function popolaQuarti() {
 
