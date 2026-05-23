@@ -120,7 +120,7 @@ document.getElementById("titolo").textContent = team;
 
 // 🔹 carica anche index.html (calendario)
 Promise.all([
-  fetch('risultati.json').then(r => r.json()),
+  fetch('risultatiCOMPLETO.json').then(r => r.json()),
   fetch('index.html').then(r => r.text())
 ])
 .then(([risultati, htmlCalendario]) => {
