@@ -54,7 +54,7 @@ h1 {
 
 /* freccia bella grossa */
 .back-btn .arrow {
-  font-size: 20px;
+  font-size: 40px;
   line-height: 1;
 }
 
@@ -90,67 +90,95 @@ const team = params.get("team");
 // 🔹 titolo pagina
 document.getElementById("titolo").textContent = team;
 
-// 🔹 carica risultati da JSON
-fetch('risultati.json')
-  .then(res => res.json())
-  .then(data => {
+// 🔹 carica anche index.html (calendario)
+Promise.all([
+  fetch('risultati.json').then(r => r.json()),
+  fetch('index.html').then(r => r.text())
+])
+.then(([risultati, htmlCalendario]) => {
 
-    if (!team) return;
+  if (!team) return;
 
-    const container = document.getElementById("lista-partite");
-    container.innerHTML = '';
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlCalendario, "text/html");
 
-    // 🔹 filtra partite della squadra
-    const partite = data.filter(m =>
-      m.casa === team || m.trasferta === team
-    );
+  // 🔹 funzione per trovare data e orario
+  function trovaInfoPartita(casa, trasferta) {
 
-    // 🔹 costruisce lista
-    partite.forEach(m => {
+    const giorni = doc.querySelectorAll(".giorno-block");
 
-      const gC = m.golCasa;
-      const gO = m.golTrasferta;
+    for (let giorno of giorni) {
+      const data = giorno.querySelector(".giorno-header")?.innerText;
+      const matches = giorno.querySelectorAll(".partita-card");
 
-      let risultatoHtml = "Risultato: —";
+      for (let match of matches) {
+        const c = match.dataset.casa;
+        const o = match.dataset.ospite;
+        const orario = match.querySelector(".orario")?.innerText;
 
-      if (gC !== null && gO !== null) {
-
-        let colore = "#ffffff";
-
-        // 🔹 squadra gioca in casa
-        if (team === m.casa) {
-          if (gC > gO) colore = "#2ecc71";     // vittoria → verde
-          else if (gC < gO) colore = "#e74c3c"; // sconfitta → rosso
-          else colore = "#f5c842";             // pareggio → giallo
+        if (c === casa && o === trasferta) {
+          return { data, orario };
         }
-        // 🔹 squadra gioca in trasferta
-        else {
-          if (gO > gC) colore = "#2ecc71";
-          else if (gO < gC) colore = "#e74c3c";
-          else colore = "#f5c842";
-        }
-
-        risultatoHtml = `
-          <span style="color:${colore}; font-weight:700;">
-            Risultato: ${gC}-${gO}
-          </span>
-        `;
       }
+    }
 
-      // 🔹 crea blocco partita
-      const div = document.createElement('div');
-      div.className = 'partita';
+    return { data: "Data da definire", orario: "—" };
+  }
 
-      div.innerHTML = `
-        <strong>${m.casa} vs ${m.trasferta}</strong><br>
-        ${risultatoHtml}
-      `;
+  const container = document.getElementById("lista-partite");
+  container.innerHTML = '';
 
-      container.appendChild(div);
-    });
+  // 🔹 filtra partite della squadra
+  const partite = risultati.filter(m =>
+    m.casa === team || m.trasferta === team
+  );
 
-  })
-  .catch(err => console.error("Errore caricamento JSON:", err));
+  // 🔹 ciclo partite
+  partite.forEach(m => {
+
+    const info = trovaInfoPartita(m.casa, m.trasferta);
+
+    const gC = m.golCasa;
+    const gO = m.golTrasferta;
+
+    let risultato = "—";
+
+    if (gC !== null && gO !== null) {
+      risultato = `${gC}-${gO}`;
+    }
+
+    // 🔹 colore risultato
+    let colore = "#ffffff";
+
+    if (gC !== null && gO !== null) {
+      if (team === m.casa) {
+        if (gC > gO) colore = "#2ecc71";
+        else if (gC < gO) colore = "#e74c3c";
+        else colore = "#f5c842";
+      } else {
+        if (gO > gC) colore = "#2ecc71";
+        else if (gO < gC) colore = "#e74c3c";
+        else colore = "#f5c842";
+      }
+    }
+
+    // ✅ FORMATO COME VUOI TU
+    const div = document.createElement('div');
+    div.className = 'partita';
+
+    div.innerHTML = `
+      📅 ${info.data} | 🕒 ${info.orario}<br>
+      <strong>${m.casa} vs ${m.trasferta}</strong> : 
+      <span style="color:${colore}; font-weight:700;">
+        ${risultato}
+      </span>
+    `;
+
+    container.appendChild(div);
+  });
+
+})
+.catch(err => console.error("Errore:", err));
 </script>
 
 </body>
