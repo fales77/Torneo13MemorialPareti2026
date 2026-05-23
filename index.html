@@ -1312,14 +1312,14 @@ document.querySelectorAll('.nav-btn').forEach(function(btn) {
   });
 });
 
-fetch('risultati.json')
+fetch('risultatiCOMPLETO.json')
   .then(response => response.json())
   .then(data => {
     data.forEach(match => {
 
       // trova la partita giusta usando data-casa e data-ospite
       const card = document.querySelector(
-        `.partita-card[data-casa="${match.casa}"][data-ospite="${match.trasferta}"]`
+        `.partita-card[data-casa="${match.casa.trim()}"][data-ospite="${match.trasferta.trim()}"]`
       );
 
       if (!card) return;
