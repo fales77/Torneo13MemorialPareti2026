@@ -77,6 +77,13 @@ h1 {
   display: flex;
   gap: 15px;
 }
+.match-datetime {
+  font-size: 0.75rem;
+  color: #888;
+  display: block;
+  margin-bottom: 2px;
+}
+
 </style>
 </head>
 
@@ -177,7 +184,11 @@ Promise.all([
     div.className = 'partita';
 
     div.innerHTML = `
-      📅 ${info.data} | 🕒 ${info.orario}<br>
+      
+<span class="match-datetime">
+  📅 ${info.data} | 🕒 ${info.orario}
+</span><br>
+
       <strong>${m.casa} vs ${m.trasferta}</strong> : 
       <span style="color:${colore}; font-weight:700;">
         ${risultato}
