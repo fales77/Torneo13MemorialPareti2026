@@ -66,12 +66,12 @@ h1 {
 
 /* DATA + ORA */
 .match-datetime {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   color: #999;
-  display: block;
-  margin-bottom: 0px;
-  line-height: 1;     /* 👈 compatta la riga */
-  transform: translateY(1px); /* 👈 avvicina visivamente */
+  margin: 0;
+  padding: 0;
+  line-height: 1;        /* 👈 fondamentale */
+  transform: translateY(2px);
 }
 
 /* STRUTTURA PARTITA */
@@ -82,9 +82,18 @@ h1 {
 }
 
 .match-main {
-  line-height: 1.05;
-  margin: 0;            /* 👈 nessun spazio sopra */
+  margin: 0;
+  padding: 0;
+  line-height: 1;        /* 👈 fondamentale */
 }
+
+/* elimina eventuali spazi tra elementi inline */
+.match-row span,
+.match-row strong {
+  margin: 0;
+  padding: 0;
+}
+
 
 </style>
 </head>
@@ -186,16 +195,19 @@ Promise.all([
     div.className = 'partita';
 
     div.innerHTML = `
-      
-<span class="match-datetime">
-  📅 ${info.data} | 🕒 ${info.orario}
-</span><br>
-
+    
+<div class="match-row">
+    <span class="match-datetime">
+      📅 ${info.data} | 🕒 ${info.orario}
+    </span>
+    <span class="match-main">
       <strong>${m.casa} vs ${m.trasferta}</strong> : 
       <span style="color:${colore}; font-weight:700;">
         ${risultato}
       </span>
-    `;
+    </span>
+  </div>
+`;
 
     container.appendChild(div);
   });
