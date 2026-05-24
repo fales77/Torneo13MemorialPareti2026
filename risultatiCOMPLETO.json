@@ -29,7 +29,7 @@
   { "id": "match24", "giornata": 3, "data": "2026-05-23", "ora": "14:00", "casa": "SETTIMO", "trasferta": "CARRARA", "golCasa": null, "golTrasferta": null },
   { "id": "match25", "giornata": 3, "data": "2026-05-23", "ora": "17:00", "casa": "BORGARO", "trasferta": "STS", "golCasa": null, "golTrasferta": null },
   { "id": "match26", "giornata": 3, "data": "2026-05-23", "ora": "18:00", "casa": "LUCENTO ROSA", "trasferta": "BARRIERA DI LANZO", "golCasa": null, "golTrasferta": null },
-  { "id": "match27", "giornata": 3, "data": "2026-05-23", "ora": "18:30", "casa": "SISPORT", "trasferta": "LASCARIS", "golCasa": null, "golTrasferta": null },
+  { "id": "match27", "giornata": 3, "data": "2026-05-23", "ora": "18:30", "casa": "SISPORT", "trasferta": "LASCARIS", "golCasa": 6, "golTrasferta": 0 },
 
   { "id": "match28", "giornata": 4, "data": "2026-05-24", "ora": "14:00", "casa": "AUTOVIP S.M.", "trasferta": "POZZOMAINA", "golCasa": null, "golTrasferta": null },
   { "id": "match29", "giornata": 4, "data": "2026-05-24", "ora": "14:00", "casa": "CIT TURIN", "trasferta": "SETTIMO", "golCasa": null, "golTrasferta": null },
