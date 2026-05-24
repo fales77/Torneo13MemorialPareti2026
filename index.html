@@ -765,18 +765,29 @@ function popolaOttavi(){
   });
 }
 
-// ✅ QUARTI INIT
 function inizializzaQuarti(){
   const c = window.CLASSIFICA;
   const quarti = document.querySelectorAll('#quarti .partita-card');
-  const labels=["Vinc. Gara 4","Vinc. Gara 3","Vinc. Gara 2","Vinc. Gara 1"];
+  const labels = ["Vinc. Gara 4","Vinc. Gara 3","Vinc. Gara 2","Vinc. Gara 1"];
+
+  const completato = gironeCompletato();
 
   quarti.forEach((card,i)=>{
-    const top=c[i].nome;
-    card.dataset.casa=top;
+
+    let nome;
+
+    if (completato) {
+      // ✅ squadra reale
+      nome = c[i].nome;
+      card.dataset.casa = nome;
+    } else {
+      // ✅ placeholder classifica
+      nome = `${i+1}ª classificata`;
+      delete card.dataset.casa;
+    }
 
     card.querySelector('.squadre').innerHTML =
-      `${top} <span class="vs-sep">vs</span> ${labels[i]}`;
+      `${nome} <span class="vs-sep">vs</span> ${labels[i]}`;
   });
 }
 
