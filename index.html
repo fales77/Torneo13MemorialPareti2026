@@ -444,8 +444,8 @@
   }
   
   .partita-attiva {
-  box-shadow: 0 0 12px var(--gold) !important;
-  border: 1px solid var(--gold) !important;
+  box-shadow: 0 0 12px var(--gold);
+  border: 1px solid var(--gold);
 	}
 }
 .team-name a {
@@ -831,6 +831,57 @@ function popolaFinale(){
   }
 }
 
+// ✅ NAV ATTIVA + scroll intelligente calendario
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // ✅ rimuove active da tutti
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+    // ✅ aggiunge active al cliccato
+    btn.classList.add('active');
+
+    const href = btn.getAttribute('href');
+    const target = document.querySelector(href);
+
+    // 👇 gestione calendario speciale (vedi sotto)
+    if (href === '#calendario') {
+
+      document.querySelectorAll('.partita-card').forEach(c => c.classList.remove('partita-attiva'));
+
+      const prossima = Array.from(
+        document.querySelectorAll('#calendario .partita-card')
+      ).find(card => {
+        const nums = card.querySelectorAll('.risultato-num');
+        if (nums.length < 2) return false;
+
+        return nums[0].textContent.trim() === '–' ||
+               nums[1].textContent.trim() === '–';
+      });
+
+      if (prossima) prossima.classList.add('partita-attiva');
+
+      const scrollTo = prossima || target;
+
+      window.scrollTo({
+        top: scrollTo.offsetTop - 70,
+        behavior: 'smooth'
+      });
+
+      return;
+    }
+
+    // ✅ scroll standard per altre sezioni
+    if (target) {
+      window.scrollTo({
+        top: target.offsetTop - 60,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+``
 // ✅ CARICAMENTO + CALENDARIO
 fetch("risultatiCOMPLETO.json")
 .then(r=>r.json())
