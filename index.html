@@ -794,7 +794,14 @@ function inizializzaQuarti(){
 ``
 
 // ✅ POPOLA QUARTI
-function popolaQuarti(){
+function popolaQuarti(){.
+
+	const completato = window.RISULTATI.filter(m => 
+		m.golCasa === null || m.golTrasferta === null
+	).length === 0;
+
+  if (!completato) return; // 🔥 QUESTO RISOLVE TUTTO
+
   const ottavi=document.querySelectorAll('#ottavi .partita-card');
   const quarti=document.querySelectorAll('#quarti .partita-card');
   const c=window.CLASSIFICA;
