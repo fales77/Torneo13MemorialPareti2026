@@ -794,11 +794,11 @@ function inizializzaQuarti(){
 ``
 
 // ✅ POPOLA QUARTI
-function popolaQuarti(){.
+function popolaQuarti(){
 
-	const completato = window.RISULTATI.filter(m => 
-		m.golCasa === null || m.golTrasferta === null
-	).length === 0;
+  const completato = window.RISULTATI.filter(m => 
+    m.golCasa === null || m.golTrasferta === null
+  ).length === 0;
 
   if (!completato) return; // 🔥 QUESTO RISOLVE TUTTO
 
