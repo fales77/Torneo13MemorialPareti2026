@@ -28,7 +28,7 @@
 {"id":"match27","giornata":3,"data":"2026-05-23","ora":"18:30","casa":"SISPORT","trasferta":"LASCARIS","golCasa":6,"golTrasferta":0},
 {"id":"match28","giornata":4,"data":"2026-05-24","ora":"14:00","casa":"AUTOVIP S.M.","trasferta":"POZZOMAINA","golCasa":0,"golTrasferta":0},
 {"id":"match29","giornata":4,"data":"2026-05-24","ora":"14:00","casa":"CIT TURIN","trasferta":"SETTIMO","golCasa":0,"golTrasferta": 1},
-{"id":"match30","giornata":4,"data":"2026-05-24","ora":"15:00","casa":"BORGARO","trasferta":"CHISOLA","golCasa":null,"golTrasferta":null},
+{"id":"match30","giornata":4,"data":"2026-05-24","ora":"15:00","casa":"BORGARO","trasferta":"CHISOLA","golCasa":1,"golTrasferta":1},
 {"id":"match31","giornata":4,"data":"2026-05-24","ora":"16:00","casa":"LUCENTO BLU","trasferta":"BARRIERA DI LANZO","golCasa":null,"golTrasferta":null},
 {"id":"match32","giornata":4,"data":"2026-05-24","ora":"16:00","casa":"PRO COLLEGNO","trasferta":"SISPORT","golCasa":null,"golTrasferta":null},
 {"id":"match33","giornata":4,"data":"2026-05-24","ora":"17:00","casa":"VANCHIGLIA","trasferta":"LUCENTO ROSSO","golCasa":null,"golTrasferta":null},
