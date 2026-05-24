@@ -634,14 +634,13 @@ const SQUADRE = [
   "SETTIMO","LUCENTO ROSA"
 ];
 
-// ✅ CALCOLO CLASSIFICA
+// ✅ CLASSIFICA
 function calcolaClassifica() {
   const stats = {};
-  SQUADRE.forEach(n => {
-    stats[n] = { nome: n, g: 0, pt: 0, rf: 0, rs: 0 };
-  });
+  SQUADRE.forEach(n => stats[n] = { nome:n, g:0, pt:0, rf:0, rs:0 });
 
   document.querySelectorAll('#calendario .partita-card').forEach(card => {
+
     const casa = card.dataset.casa;
     const ospite = card.dataset.ospite;
     const nums = card.querySelectorAll('.risultato-num');
@@ -651,34 +650,23 @@ function calcolaClassifica() {
     const vC = nums[0].textContent.trim();
     const vO = nums[1].textContent.trim();
 
-    if (vC === '–' || vO === '–') {
-      card.querySelector('.risultato-box').classList.remove('match-done');
-      return;
-    }
+    if (vC === '–' || vO === '–') return;
 
     const gC = parseInt(vC);
     const gO = parseInt(vO);
+
     if (isNaN(gC) || isNaN(gO)) return;
 
-    card.querySelector('.risultato-box').classList.add('match-done');
-
-    stats[casa].g++;
-    stats[casa].rf += gC;
-    stats[casa].rs += gO;
-
-    stats[ospite].g++;
-    stats[ospite].rf += gO;
-    stats[ospite].rs += gC;
+    stats[casa].g++; stats[ospite].g++;
+    stats[casa].rf += gC; stats[casa].rs += gO;
+    stats[ospite].rf += gO; stats[ospite].rs += gC;
 
     if (gC > gO) stats[casa].pt += 3;
     else if (gO > gC) stats[ospite].pt += 3;
-    else {
-      stats[casa].pt += 1;
-      stats[ospite].pt += 1;
-    }
+    else { stats[casa].pt++; stats[ospite].pt++; }
   });
 
-  const sorted = Object.values(stats).sort((a,b) => {
+  const sorted = Object.values(stats).sort((a,b)=>{
     if (b.pt !== a.pt) return b.pt - a.pt;
     const drA = a.rf - a.rs;
     const drB = b.rf - b.rs;
@@ -690,31 +678,25 @@ function calcolaClassifica() {
   const tbody = document.getElementById('classifica-body');
   tbody.innerHTML = '';
 
-  const sep = document.createElement('tr');
-  sep.className = 'separator-row';
-  sep.innerHTML = '<td colspan="7"><div class="separator-label">Zona qualificazione — prime 12</div></td>';
-  tbody.appendChild(sep);
+  tbody.innerHTML += '<tr class="separator-row"><td colspan="7"><div class="separator-label">Zona qualificazione — prime 12</div></td></tr>';
 
-  sorted.forEach((sq, i) => {
-    const pos = i + 1;
-    const dr = sq.rf - sq.rs;
+  sorted.forEach((sq,i)=>{
+    const pos=i+1;
+    const dr=sq.rf-sq.rs;
 
-    const tr = document.createElement('tr');
-    tr.className = pos <= 12 ? 'row-qualif' : 'row-out';
+    const tr=document.createElement('tr');
+    tr.className=pos<=12?'row-qualif':'row-out';
 
     tr.innerHTML = `
-      <td style="padding-left:10px; position:relative;">
-        ${pos <= 12 ? '<span class="qualif-bar"></span>' : ''}
-        <span class="pos-num">${pos}</span>
-      </td>
+      <td><span class="pos-num">${pos}</span></td>
       <td class="team-name">
-        <a href="squadra.html?team=${encodeURIComponent(sq.nome)}">${sq.nome}</a>
+        <a href="squadra.html?team=${encodeURIComponent(sqsq.nome}</a>
       </td>
-      <td style="color:var(--gold)">${sq.pt}</td>
+      <td>${sq.pt}</td>
       <td>${sq.g}</td>
       <td>${sq.rf}</td>
       <td>${sq.rs}</td>
-      <td>${dr > 0 ? '+'+dr : dr}</td>
+      <td>${dr>0? '+'+dr:dr}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -722,80 +704,165 @@ function calcolaClassifica() {
   window.CLASSIFICA = sorted;
 }
 
-// ✅ NAV + SCROLL
-document.querySelectorAll('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.preventDefault();
+// ✅ FUNZIONE UTILE
+function getVincitore(card){
+  const casa = card.dataset.casa;
+  const ospite = card.dataset.ospite;
 
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+  if (!casa || !ospite) return null;
 
-    const target = document.querySelector(btn.getAttribute('href'));
+  const nums = card.querySelectorAll('.risultato-num');
+  const gC = parseInt(nums[0].textContent);
+  const gO = parseInt(nums[1].textContent);
 
-    if (target) {
-      window.scrollTo({
-        top: target.offsetTop - 60,
-        behavior: 'smooth'
-      });
-    }
+  if (isNaN(gC) || isNaN(gO)) return null;
+
+  if (gC > gO) return casa;
+  if (gO > gC) return ospite;
+
+  const c = window.CLASSIFICA;
+  return c.findIndex(x=>x.nome===casa) < c.findIndex(x=>x.nome===ospite) ? casa : ospite;
+}
+
+// ✅ OTTAVI
+function popolaOttavi(){
+  const giocate = document.querySelectorAll('#calendario .match-done').length;
+  const tot = document.querySelectorAll('#calendario .partita-card').length;
+  if (giocate < tot) return;
+
+  const c = window.CLASSIFICA;
+  const pairs = [[4,11],[5,10],[6,9],[7,8]];
+  const cards = document.querySelectorAll('#ottavi .partita-card');
+
+  pairs.forEach((m,i)=>{
+    const casa = c[m[0]].nome;
+    const ospite = c[m[1]].nome;
+
+    const card = cards[i];
+    if (!card) return;
+
+    card.dataset.casa=casa;
+    card.dataset.ospite=ospite;
+
+    card.querySelector('.squadre').innerHTML =
+      `${casa} <span class="vs-sep">vs</span> ${ospite}`;
   });
-});
+}
 
-// ✅ CARICAMENTO JSON + CREAZIONE CALENDARIO
-fetch("risultatiCOMPLETO.json")
-.then(res => res.json())
-.then(data => {
+// ✅ QUARTI INIT
+function inizializzaQuarti(){
+  const c = window.CLASSIFICA;
+  const quarti = document.querySelectorAll('#quarti .partita-card');
+  const labels=["Vinc. Gara 4","Vinc. Gara 3","Vinc. Gara 2","Vinc. Gara 1"];
 
-  const container = document.getElementById("calendario-dinamico");
-  container.innerHTML = "";
+  quarti.forEach((card,i)=>{
+    const top=c[i].nome;
+    card.dataset.casa=top;
 
-  const giorni = ["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
-  const mesi = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno"];
+    card.querySelector('.squadre').innerHTML =
+      `${top} <span class="vs-sep">vs</span> ${labels[i]}`;
+  });
+}
 
-  function formattaData(d) {
-    const date = new Date(d);
-    return `${giorni[date.getDay()]} ${date.getDate()} ${mesi[date.getMonth()]}`;
+// ✅ POPOLA QUARTI
+function popolaQuarti(){
+  const ottavi=document.querySelectorAll('#ottavi .partita-card');
+  const quarti=document.querySelectorAll('#quarti .partita-card');
+  const c=window.CLASSIFICA;
+
+  const mappa=[3,2,1,0];
+
+  ottavi.forEach((card,i)=>{
+    const vinc=getVincitore(card);
+    if(!vinc) return;
+
+    const idx=mappa[i];
+    const q=quarti[idx];
+
+    q.dataset.ospite=vinc;
+    q.querySelector('.squadre').innerHTML =
+      `${c[idx].nome} <span class="vs-sep">vs</span> ${vinc}`;
+  });
+}
+
+// ✅ SEMIFINALI
+function popolaSemifinali(){
+  const quarti=document.querySelectorAll('#quarti .partita-card');
+  const semi=document.querySelectorAll('#semifinali .partita-card');
+
+  const v=Array.from(quarti).map(getVincitore);
+
+  if(v[0] && v[3])
+    semi[0].querySelector('.squadre').innerHTML =
+      `${v[0]} <span class="vs-sep">vs</span> ${v[3]}`;
+
+  if(v[1] && v[2])
+    semi[1].querySelector('.squadre').innerHTML =
+      `${v[1]} <span class="vs-sep">vs</span> ${v[2]}`;
+}
+
+// ✅ FINALE
+function popolaFinale(){
+  const semi=document.querySelectorAll('#semifinali .partita-card');
+  const finali=document.querySelectorAll('#finali-finali .partita-card');
+
+  const v1=getVincitore(semi[0]);
+  const v2=getVincitore(semi[1]);
+
+  if(v1 && v2){
+    finali[1].querySelector('.squadre').innerHTML =
+      `${v1} <span class="vs-sep">vs</span> ${v2}`;
   }
+}
 
-  const perData = {};
-  data.forEach(m => {
-    if (!perData[m.data]) perData[m.data] = [];
+// ✅ CARICAMENTO + CALENDARIO
+fetch("risultatiCOMPLETO.json")
+.then(r=>r.json())
+.then(data=>{
+
+  const container=document.getElementById("calendario-dinamico");
+  container.innerHTML="";
+
+  const giorni=["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
+  const mesi=["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno"];
+
+  const perData={};
+
+  data.forEach(m=>{
+    if(!perData[m.data]) perData[m.data]=[];
     perData[m.data].push(m);
   });
 
-  Object.keys(perData).sort().forEach(dataKey => {
+  Object.keys(perData).sort().forEach(d=>{
 
-    const block = document.createElement("div");
-    block.className = "giorno-block";
+    const block=document.createElement("div");
+    block.className="giorno-block";
 
-    const header = document.createElement("div");
-    header.className = "giorno-header";
-    header.textContent = formattaData(dataKey);
+    const h=document.createElement("div");
+    h.className="giorno-header";
 
-    block.appendChild(header);
+    const dt=new Date(d);
+    h.textContent=`${giorni[dt.getDay()]} ${dt.getDate()} ${mesi[dt.getMonth()]}`;
 
-    perData[dataKey].sort((a,b) => a.ora.localeCompare(b.ora));
+    block.appendChild(h);
 
-    perData[dataKey].forEach(match => {
+    perData[d].sort((a,b)=>a.ora.localeCompare(b.ora));
 
-      const finita = match.golCasa !== null && match.golTrasferta !== null;
+    perData[d].forEach(match=>{
+      const finita = match.golCasa!=null && match.golTrasferta!=null;
 
-      const card = document.createElement("div");
-      card.className = "partita-card";
-      card.dataset.casa = match.casa;
-      card.dataset.ospite = match.trasferta;
+      const card=document.createElement("div");
+      card.className="partita-card";
+      card.dataset.casa=match.casa;
+      card.dataset.ospite=match.trasferta;
 
-      card.innerHTML = `
+      card.innerHTML=`
         <span class="orario">${match.ora}</span>
-
         <div class="partita-vs">
-          <span class="squadre">
-            ${match.casa} <span class="vs-sep">vs</span> ${match.trasferta}
-          </span>
+          <span class="squadre">${match.casa} <span class="vs-sep">vs</span> ${match.trasferta}</span>
           <span class="partita-giornata">${match.giornata}ª Giornata</span>
         </div>
-
-        <div class="risultato-box ${finita ? 'match-done' : ''}">
+        <div class="risultato-box ${finita?'match-done':''}">
           <span class="risultato-num">${match.golCasa ?? '–'}</span>
           <span class="risultato-sep">-</span>
           <span class="risultato-num">${match.golTrasferta ?? '–'}</span>
@@ -808,13 +875,19 @@ fetch("risultatiCOMPLETO.json")
     container.appendChild(block);
   });
 
-  // ✅ DOPO aver creato il calendario
+  // ✅ TUTTO DOPO CREAZIONE
   calcolaClassifica();
+  popolaOttavi();
+  inizializzaQuarti();
+  popolaQuarti();
+  popolaSemifinali();
+  popolaFinale();
 
 })
-.catch(err => console.error(err));
+.catch(err=>console.error(err));
 
 </script>
+
 
 </body>
 </html>
