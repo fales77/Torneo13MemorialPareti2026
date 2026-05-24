@@ -44,7 +44,7 @@ Le prime 12 squadre accedono alle fasi finali.
 
 ## 📅 Calendario dinamico
 
-Il calendario viene generato automaticamente dal file `risultati.json`.
+Il calendario viene generato automaticamente dal file `risultatiCOMPLETO.json`.
 
 Ogni partita include:
 - data
