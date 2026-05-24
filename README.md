@@ -25,7 +25,7 @@ squadra.html        → Pagina di dettaglio singola squadra
 
 ## 🏆 Classifica automatica
 
-La classifica viene calcolata in JavaScript a partire dai risultati caricati da `risultati.json`, senza alcun dato hardcoded.
+La classifica viene calcolata in JavaScript a partire dai risultati caricati da `risultatiCOMPLETO.json`, senza alcun dato hardcoded.
 
 Punteggio:
 - Vittoria → 3 punti
