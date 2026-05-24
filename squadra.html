@@ -32,10 +32,10 @@ h1 {
 .back-btn {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   background: #f5c842;
   color: #0a1628;
-  padding: 6px 10px;
+  padding: 4px 6px;
   border-radius: 6px;
   font-weight: 700;
   text-decoration: none;
@@ -48,12 +48,12 @@ h1 {
 }
 
 .back-btn .arrow {
-  font-size: 12px;
+  font-size: 18px;
   line-height: 1;
 }
 
 .back-btn .label {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 /* PARTITE */
@@ -101,7 +101,7 @@ h1 {
 <body>
 <div class="header-squadra">
   <a href="javascript:history.back()" class="back-btn">
-    <span class="arrow">←</span>
+    <!--<span class="arrow">←</span>-->
     <span class="label">Back</span>
   </a>
 
@@ -111,6 +111,7 @@ h1 {
 <div id="lista-partite"></div>
 
 <script>
+
 // 🔹 prende nome squadra da URL
 const params = new URLSearchParams(window.location.search);
 const team = params.get("team");
@@ -118,103 +119,87 @@ const team = params.get("team");
 // 🔹 titolo pagina
 document.getElementById("titolo").textContent = team;
 
-// 🔹 carica anche index.html (calendario)
-Promise.all([
-  fetch('risultatiCOMPLETO.json').then(r => r.json()),
-  fetch('index.html').then(r => r.text())
-])
-.then(([risultati, htmlCalendario]) => {
+// ✅ formato data leggibile
+function formattaData(d) {
+  const giorni = ["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
+  const mesi = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno"];
+  const date = new Date(d);
+  return `${giorni[date.getDay()]} ${date.getDate()} ${mesi[date.getMonth()]}`;
+}
 
-  if (!team) return;
+// 🔹 carica SOLO JSON (✅ FIX)
+fetch('risultatiCOMPLETO.json')
+  .then(res => res.json())
+  .then(risultati => {
 
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlCalendario, "text/html");
+    if (!team) return;
 
-  // 🔹 funzione per trovare data e orario
-  function trovaInfoPartita(casa, trasferta) {
+    const container = document.getElementById("lista-partite");
+    container.innerHTML = '';
 
-    const giorni = doc.querySelectorAll(".giorno-block");
+    // 🔹 filtra partite squadra
+    const partite = risultati.filter(m =>
+      m.casa === team || m.trasferta === team
+    );
 
-    for (let giorno of giorni) {
-      const data = giorno.querySelector(".giorno-header")?.innerText;
-      const matches = giorno.querySelectorAll(".partita-card");
+    // ✅ ordina per data + ora
+    partite.sort((a, b) => {
+      return new Date(a.data + " " + a.ora) - new Date(b.data + " " + b.ora);
+    });
 
-      for (let match of matches) {
-        const c = match.dataset.casa;
-        const o = match.dataset.ospite;
-        const orario = match.querySelector(".orario")?.innerText;
+    // 🔹 ciclo partite
+    partite.forEach(m => {
 
-        if (c === casa && o === trasferta) {
-          return { data, orario };
-        }
+      const gC = m.golCasa;
+      const gO = m.golTrasferta;
+
+      let risultato = "—";
+      let colore = "#ffffff";
+
+      if (gC !== null && gO !== null) {
+
+        const isCasa = m.casa === team;
+
+        const golSq = isCasa ? gC : gO;
+        const golAvv = isCasa ? gO : gC;
+
+        risultato = `${golSq}-${golAvv}`;
+
+        if (golSq > golAvv) colore = "#2ecc71";      // vittoria
+        else if (golSq < golAvv) colore = "#e74c3c"; // sconfitta
+        else colore = "#f5c842";                     // pareggio
       }
-    }
 
-    return { data: "Data da definire", orario: "—" };
-  }
+      const div = document.createElement('div');
+      div.className = 'partita';
 
-  const container = document.getElementById("lista-partite");
-  container.innerHTML = '';
+      div.innerHTML = `
+        <div class="match-row">
+          <span class="match-datetime">
+            📅 ${formattaData(m.data)} | 🕒 ${m.ora}
+          </span>
 
-  // 🔹 filtra partite della squadra
-  const partite = risultati.filter(m =>
-    m.casa === team || m.trasferta === team
-  );
+          <span class="match-main">
+            <strong>${m.casa} vs ${m.trasferta}</strong> :
+            <span style="color:${colore}; font-weight:700;">
+              ${risultato}
+            </span>
+          </span>
 
-  // 🔹 ciclo partite
-  partite.forEach(m => {
+          <div class="match-giornata">
+            ${m.giornata}ª giornata
+          </div>
+        </div>
+      `;
 
-    const info = trovaInfoPartita(m.casa, m.trasferta);
+      container.appendChild(div);
+    });
 
-    const gC = m.golCasa;
-    const gO = m.golTrasferta;
+  })
+  .catch(err => console.error("Errore:", err));
 
-    let risultato = "—";
-
-    if (gC !== null && gO !== null) {
-      risultato = `${gC}-${gO}`;
-    }
-
-    // 🔹 colore risultato
-    let colore = "#ffffff";
-
-    if (gC !== null && gO !== null) {
-      if (team === m.casa) {
-        if (gC > gO) colore = "#2ecc71";
-        else if (gC < gO) colore = "#e74c3c";
-        else colore = "#f5c842";
-      } else {
-        if (gO > gC) colore = "#2ecc71";
-        else if (gO < gC) colore = "#e74c3c";
-        else colore = "#f5c842";
-      }
-    }
-
-    // ✅ FORMATO COME VUOI TU
-    const div = document.createElement('div');
-    div.className = 'partita';
-
-    div.innerHTML = `
-    
-<div class="match-row">
-    <span class="match-datetime">
-      📅 ${info.data} | 🕒 ${info.orario}
-    </span>
-    <span class="match-main">
-      <strong>${m.casa} vs ${m.trasferta}</strong> : 
-      <span style="color:${colore}; font-weight:700;">
-        ${risultato}
-      </span>
-    </span>
-  </div>
-`;
-
-    container.appendChild(div);
-  });
-
-})
-.catch(err => console.error("Errore:", err));
 </script>
+
 
 </body>
 </html>
