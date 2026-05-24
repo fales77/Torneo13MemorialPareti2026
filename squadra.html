@@ -176,7 +176,7 @@ fetch('risultatiCOMPLETO.json')
       div.innerHTML = `
         <div class="match-row">
           <span class="match-datetime">
-            📅 ${formattaData(m.data)} | 🕒 ${m.ora}
+            📅 ${formattaData(m.data)} | 🕒 ${m.ora} | ${m.giornata}ª
           </span>
 
           <span class="match-main">
@@ -185,10 +185,7 @@ fetch('risultatiCOMPLETO.json')
               ${risultato}
             </span>
           </span>
-
-          <div class="match-giornata">
-            ${m.giornata}ª giornata
-          </div>
+          
         </div>
       `;
 
