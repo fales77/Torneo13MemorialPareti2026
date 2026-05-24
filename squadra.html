@@ -158,16 +158,19 @@ fetch('risultatiCOMPLETO.json')
 
       if (gC !== null && gO !== null) {
 
-        const isCasa = m.casa === team;
+        // ✅ risultato SEMPRE reale (casa-trasferta)
+		risultato = `${gC}-${gO}`;
 
-        const golSq = isCasa ? gC : gO;
-        const golAvv = isCasa ? gO : gC;
-
-        risultato = `${golSq}-${golAvv}`;
-
-        if (golSq > golAvv) colore = "#2ecc71";      // vittoria
-        else if (golSq < golAvv) colore = "#e74c3c"; // sconfitta
-        else colore = "#f5c842";                     // pareggio
+		// ✅ colore calcolato sulla squadra selezionata
+		if (m.casa === team) {
+		if (gC > gO) colore = "#2ecc71";
+		else if (gC < gO) colore = "#e74c3c";
+		else colore = "#f5c842";
+		} else {
+		if (gO > gC) colore = "#2ecc71";
+		else if (gO < gC) colore = "#e74c3c";
+		else colore = "#f5c842";
+		}                     // pareggio
       }
 
       const div = document.createElement('div');
