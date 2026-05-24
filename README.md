@@ -92,7 +92,7 @@ I risultati delle fasi finali si inseriscono direttamente nell’HTML.
 ## 🔧 Aggiornamento risultati
 
 Gironi:
-→ modificare risultati.json
+→ modificare risultatiCOMPLETO.json
 
 Fasi finali:
 → modificare HTML
@@ -106,3 +106,5 @@ Fasi finali:
 ---
 
 Organizzazione: A.C.D. Lucento – Torino
+
+© Al.Fa - Tutti i Diritti Riservati
