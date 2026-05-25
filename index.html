@@ -863,21 +863,26 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     const href = btn.getAttribute('href');
     const target = document.querySelector(href);
 
-    // 👇 gestione calendario speciale (vedi sotto)
+    // 👇 gestione calendario con data/ora reale
     if (href === '#calendario') {
 
-      document.querySelectorAll('.partita-card').forEach(c => c.classList.remove('partita-attiva'));
+      // reset evidenziazione
+      document.querySelectorAll('.partita-card')
+        .forEach(c => c.classList.remove('partita-attiva'));
+
+      const now = new Date();
 
       const prossima = Array.from(
         document.querySelectorAll('#calendario .partita-card')
-      ).find(card => {
-        const nums = card.querySelectorAll('.risultato-num');
-        if (nums.length < 2) return false;
+      )
+      .map(card => {
+        const dt = new Date(card.dataset.data + 'T' + card.dataset.ora);
+        return { card, dt };
+      })
+      .filter(x => x.dt > now)
+      .sort((a, b) => a.dt - b.dt)[0]?.card;
 
-        return nums[0].textContent.trim() === '–' ||
-               nums[1].textContent.trim() === '–';
-      });
-
+      // evidenzia partita trovata
       if (prossima) prossima.classList.add('partita-attiva');
 
       const scrollTo = prossima || target;
@@ -899,7 +904,7 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     }
   });
 });
-``
+
 // ✅ CARICAMENTO + CALENDARIO
 fetch("risultatiCOMPLETO.json")
 .then(r=>r.json())
@@ -940,6 +945,11 @@ fetch("risultatiCOMPLETO.json")
       card.className="partita-card";
       card.dataset.casa=match.casa;
       card.dataset.ospite=match.trasferta;
+	  
+	/* ✅ AGGIUNTA CHIAVE */
+	card.dataset.data = match.data;   // es: "2026-05-25"
+	card.dataset.ora = match.ora;     // es: "19:00"
+
 
       card.innerHTML=`
         <span class="orario">${match.ora}</span>
