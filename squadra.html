@@ -127,7 +127,7 @@ function formattaData(d) {
   return `${giorni[date.getDay()]} ${date.getDate()} ${mesi[date.getMonth()]}`;
 }
 
-// 🔹 carica SOLO JSON (✅ FIX)
+// 🔹 carica JSON
 fetch('risultatiCOMPLETO.json')
   .then(res => res.json())
   .then(risultati => {
@@ -156,39 +156,57 @@ fetch('risultatiCOMPLETO.json')
       let risultato = "—";
       let colore = "#ffffff";
 
-      if (gC !== null && gO !== null) {
+      // ✅ PARTITA RINVIATA
+      if (m.rinviata === true) {
+        risultato = m.label || "RINV.";
+        colore = "#ff7675";
+      }
 
-        // ✅ risultato SEMPRE reale (casa-trasferta)
-		risultato = `${gC}-${gO}`;
+      // ✅ PARTITA GIOCATA
+      else if (gC !== null && gO !== null) {
 
-		// ✅ colore calcolato sulla squadra selezionata
-		if (m.casa === team) {
-		if (gC > gO) colore = "#2ecc71";
-		else if (gC < gO) colore = "#e74c3c";
-		else colore = "#f5c842";
-		} else {
-		if (gO > gC) colore = "#2ecc71";
-		else if (gO < gC) colore = "#e74c3c";
-		else colore = "#f5c842";
-		}                     // pareggio
+        risultato = `${gC}-${gO}`;
+
+        if (m.casa === team) {
+          if (gC > gO) colore = "#2ecc71";
+          else if (gC < gO) colore = "#e74c3c";
+          else colore = "#f5c842";
+        } else {
+          if (gO > gC) colore = "#2ecc71";
+          else if (gO < gC) colore = "#e74c3c";
+          else colore = "#f5c842";
+        }
       }
 
       const div = document.createElement('div');
       div.className = 'partita';
 
+      // ✅ evidenzia squadra selezionata
+      const casa = m.casa === team
+        ? `<span class="team-selected">${m.casa}</span>`
+        : m.casa;
+
+      const trasferta = m.trasferta === team
+        ? `<span class="team-selected">${m.trasferta}</span>`
+        : m.trasferta;
+
+      // ✅ aggiunge classe se rinviata (opzionale)
+      const classeExtra = m.rinviata ? "match-rinvio" : "";
+
       div.innerHTML = `
         <div class="match-row">
+
           <span class="match-datetime">
             📅 ${formattaData(m.data)} | 🕒 ${m.ora} | ${m.giornata}ª GIORNATA
           </span>
 
           <span class="match-main">
-            <strong>${m.casa} vs ${m.trasferta}</strong> :
-            <span style="color:${colore}; font-weight:700;">
+            <strong>${casa} vs ${trasferta}</strong> :
+            <span class="${classeExtra}" style="color:${colore}; font-weight:700;">
               ${risultato}
             </span>
           </span>
-          
+
         </div>
       `;
 
@@ -199,6 +217,7 @@ fetch('risultatiCOMPLETO.json')
   .catch(err => console.error("Errore:", err));
 
 </script>
+``
 
 
 </body>
