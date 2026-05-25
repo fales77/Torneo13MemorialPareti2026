@@ -34,7 +34,7 @@
 {"id":"match33","giornata":4,"data":"2026-05-24","ora":"17:00","casa":"VANCHIGLIA","trasferta":"LUCENTO ROSSO","golCasa":null,"golTrasferta":null,"rinviata": true,"label": "RINV."},
 {"id":"match34","giornata":4,"data":"2026-05-24","ora":"19:00","casa":"STS","trasferta":"LASCARIS","golCasa":3,"golTrasferta":1},
 {"id":"match35","giornata":4,"data":"2026-05-24","ora":"18:00","casa":"LUCENTO ROSA","trasferta":"P. BRUINESE","golCasa":3,"golTrasferta":3},
-{"id":"match36","giornata":5,"data":"2026-05-25","ora":"19:00","casa":"AUTOVIP S.M.","trasferta":"SETTIMO","golCasa":null,"golTrasferta":null},
+{"id":"match36","giornata":5,"data":"2026-05-25","ora":"19:00","casa":"AUTOVIP S.M.","trasferta":"SETTIMO","golCasa":1,"golTrasferta":1},
 {"id":"match37","giornata":5,"data":"2026-05-25","ora":"19:00","casa":"LASCARIS","trasferta":"CIT TURIN","golCasa":null,"golTrasferta":null},
 {"id":"match38","giornata":1,"data":"2026-05-25","ora":"20:00","casa":"POZZOMAINA","trasferta":"SISPORT","golCasa":null,"golTrasferta":null},
 {"id":"match39","giornata":5,"data":"2026-05-25","ora":"20:00","casa":"LUCENTO ROSSO","trasferta":"P. BRUINESE","golCasa":null,"golTrasferta":null},
