@@ -920,70 +920,81 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
 
 // ✅ CARICAMENTO + CALENDARIO
 fetch("risultatiCOMPLETO.json")
-.then(r=>r.json())
-.then(data=>{
+.then(r => r.json())
+.then(data => {
 
-  const container=document.getElementById("calendario-dinamico");
-  container.innerHTML="";
+  const container = document.getElementById("calendario-dinamico");
+  container.innerHTML = "";
 
-  const giorni=["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
-  const mesi=["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno"];
+  const giorni = ["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
+  const mesi = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno"];
 
-  const perData={};
+  const perData = {};
 
-  data.forEach(m=>{
-    if(!perData[m.data]) perData[m.data]=[];
+  data.forEach(m => {
+    if (!perData[m.data]) perData[m.data] = [];
     perData[m.data].push(m);
   });
 
-  Object.keys(perData).sort().forEach(d=>{
+  Object.keys(perData).sort().forEach(d => {
 
-    const block=document.createElement("div");
-    block.className="giorno-block";
+    const block = document.createElement("div");
+    block.className = "giorno-block";
 
-    const h=document.createElement("div");
-    h.className="giorno-header";
+    const h = document.createElement("div");
+    h.className = "giorno-header";
 
-    const dt=new Date(d);
-    h.textContent=`${giorni[dt.getDay()]} ${dt.getDate()} ${mesi[dt.getMonth()]}`;
+    const dt = new Date(d);
+    h.textContent = `${giorni[dt.getDay()]} ${dt.getDate()} ${mesi[dt.getMonth()]}`;
 
     block.appendChild(h);
 
-    perData[d].sort((a,b)=>a.ora.localeCompare(b.ora));
+    perData[d].sort((a, b) => a.ora.localeCompare(b.ora));
 
-    perData[d].forEach(match=>{
-    const rinviata = match.rinviata === true;
-	const finita = !rinviata && match.golCasa != null && match.golTrasferta != null;
+    perData[d].forEach(match => {
 
+      const rinviata = match.rinviata === true;
+      const finita = !rinviata && match.golCasa != null && match.golTrasferta != null;
 
-      const card=document.createElement("div");
-      card.className="partita-card";
-      card.dataset.casa=match.casa;
-      card.dataset.ospite=match.trasferta;
-	  
-	/* ✅ AGGIUNTA CHIAVE */
-	card.dataset.data = match.data;   // es: "2026-05-25"
-	card.dataset.ora = match.ora;     // es: "19:00"
+      const card = document.createElement("div");
+      card.className = "partita-card";
 
+      card.dataset.casa = match.casa;
+      card.dataset.ospite = match.trasferta;
+      card.dataset.data = match.data;
+      card.dataset.ora = match.ora;
 
-      card.innerHTML=`
+      // ✅ COSTRUZIONE RISULTATO (sicura)
+      let risultatoHTML = "";
+
+      if (rinviata) {
+        risultatoHTML = `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`;
+      } else {
+        risultatoHTML = `
+          <span class="risultato-num">${match.golCasa ?? '–'}</span>
+          <span class="risultato-sep">-</span>
+          <span class="risultato-num">${match.golTrasferta ?? '–'}</span>
+        `;
+      }
+
+      const classeRisultato = finita ? "match-done" : "";
+
+      // ✅ HTML CARD (pulito e stabile)
+      card.innerHTML = `
         <span class="orario">${match.ora}</span>
+
         <div class="partita-vs">
-          <span class="squadre">${match.casa} <span class="vs-sep">vs</span> ${match.trasferta}</span>
-          <span class="partita-giornata">${match.giornata}ª Giornata</span>
+          <span class="squadre">
+            ${match.casa} <span class="vs-sep">vs</span> ${match.trasferta}
+          </span>
+          <span class="partita-giornata">
+            ${match.giornata}ª Giornata
+          </span>
         </div>
-		
-		let risultatoHTML = '';
-		
-		if (rinviata) {
-		risultatoHTML = `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`;
-		} else {
-		risultatoHTML = `
-		<span class="risultato-num">${match.golCasa ?? '–'}</span>
-		<span class="risultato-sep">-</span>
-		<span class="risultato-num">${match.golTrasferta ?? '–'}</span>
-		`;
-		}
+
+        <div class="risultato-box ${classeRisultato}">
+          ${risultatoHTML}
+        </div>
       `;
 
       block.appendChild(card);
@@ -992,7 +1003,7 @@ fetch("risultatiCOMPLETO.json")
     container.appendChild(block);
   });
 
-  // ✅ TUTTO DOPO CREAZIONE
+  // ✅ AGGIORNA TUTTO
   calcolaClassifica();
   popolaOttavi();
   inizializzaQuarti();
@@ -1001,8 +1012,8 @@ fetch("risultatiCOMPLETO.json")
   popolaFinale();
 
 })
-.catch(err=>console.error(err));
-
+.catch(err => console.error(err));
+``
 </script>
 
 <footer class="footer">
