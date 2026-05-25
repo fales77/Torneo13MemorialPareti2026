@@ -716,7 +716,9 @@ function calcolaClassifica() {
     tr.className=pos<=12?'row-qualif':'row-out';
 
     tr.innerHTML = `
-      <td><span class="pos-num">${pos}</span></td>
+	<td>${pos <= 12 ? '<div class="qualif-bar"></div>' : ''}
+	<span class="pos-num">${pos}</span></td>
+
       <td class="team-name">
         <a href="squadra.html?team=${encodeURIComponent(sq.nome)}">${sq.nome}</a>
       </td>
