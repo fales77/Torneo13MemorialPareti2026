@@ -972,18 +972,18 @@ fetch("risultatiCOMPLETO.json")
           <span class="squadre">${match.casa} <span class="vs-sep">vs</span> ${match.trasferta}</span>
           <span class="partita-giornata">${match.giornata}ª Giornata</span>
         </div>
-		<div class="risultato-box ${finita ? 'match-done' : ''}">
-		${
-    rinviata
-      ? `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`
-      : `
-        <span class="risultato-num">${match.golCasa ?? '–'}</span>
-        <span class="risultato-sep">-</span>
-        <span class="risultato-num">${match.golTrasferta ?? '–'}</span>
-      `
+		
+		let risultatoHTML = '';
+		
+		if (rinviata) {
+		risultatoHTML = `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`;
+		} else {
+		risultatoHTML = `
+		<span class="risultato-num">${match.golCasa ?? '–'}</span>
+		<span class="risultato-sep">-</span>
+		<span class="risultato-num">${match.golTrasferta ?? '–'}</span>
+		`;
 		}
-		</div>
-
       `;
 
       block.appendChild(card);
