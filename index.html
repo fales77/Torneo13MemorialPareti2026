@@ -373,6 +373,18 @@
   letter-spacing: 1px;
 }
 
+.risultato-rinvio {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #ff7675;
+  letter-spacing: 1px;
+  text-align: right;
+  width: 100%;
+  display: block; /* ✅ questo sistema l'allineamento */
+}
+
+
   /* BADGE FINALI */
   .finale-badge {
     display: inline-block;
@@ -657,7 +669,9 @@ function calcolaClassifica() {
 
     const casa = card.dataset.casa;
     const ospite = card.dataset.ospite;
+	if (card.querySelector('.risultato-rinvio')) return;
     const nums = card.querySelectorAll('.risultato-num');
+	
 
     if (nums.length < 2) return;
 
@@ -781,7 +795,7 @@ function inizializzaQuarti(){
       nome = c[i].nome;
       card.dataset.casa = nome;
     } else {
-      nome = `${i+1}ª classificata`;
+      nome = `${i+1}ª classificata;
       delete card.dataset.casa;
     }
 
@@ -789,7 +803,6 @@ function inizializzaQuarti(){
       `${nome} <span class="vs-sep">vs</span> ${labels[i]}`;
   });
 }
-``
 
 // ✅ POPOLA QUARTI
 function popolaQuarti(){
@@ -939,7 +952,9 @@ fetch("risultatiCOMPLETO.json")
     perData[d].sort((a,b)=>a.ora.localeCompare(b.ora));
 
     perData[d].forEach(match=>{
-      const finita = match.golCasa!=null && match.golTrasferta!=null;
+    const rinviata = match.rinviata === true;
+	const finita = !rinviata && match.golCasa != null && match.golTrasferta != null;
+
 
       const card=document.createElement("div");
       card.className="partita-card";
@@ -957,11 +972,18 @@ fetch("risultatiCOMPLETO.json")
           <span class="squadre">${match.casa} <span class="vs-sep">vs</span> ${match.trasferta}</span>
           <span class="partita-giornata">${match.giornata}ª Giornata</span>
         </div>
-        <div class="risultato-box ${finita?'match-done':''}">
-          <span class="risultato-num">${match.golCasa ?? '–'}</span>
-          <span class="risultato-sep">-</span>
-          <span class="risultato-num">${match.golTrasferta ?? '–'}</span>
-        </div>
+		<div class="risultato-box ${finita ? 'match-done' : ''}">
+		${
+    rinviata
+      ? `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`
+      : `
+        <span class="risultato-num">${match.golCasa ?? '–'}</span>
+        <span class="risultato-sep">-</span>
+        <span class="risultato-num">${match.golTrasferta ?? '–'}</span>
+      `
+		}
+		</div>
+
       `;
 
       block.appendChild(card);
