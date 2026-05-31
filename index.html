@@ -333,18 +333,18 @@
   }
 
   /* RISULTATO */
-  .risultato-box {
-    display: grid;
-	grid-template-columns: 10px 16px 10px 12px; /* asterisco + num + sep + num  👈 chiave */
-    align-items: center;
-    gap: 2px;
-	min-width: 55px;      /* 👈 fondamentale */
-	text-align: right;
-    margin-left: auto;
-    flex-shrink: 0;
-	justify-content: end;
-	font-variant-numeric: tabular-nums;
-  }
+ .risultato-box {
+  display: grid;
+  grid-template-columns: 16px 10px 12px; /* torna a 3 colonne */
+  align-items: center;
+  gap: 2px;
+  min-width: 55px;
+  text-align: right;
+  margin-left: auto;
+  flex-shrink: 0;
+  justify-content: end;
+  font-variant-numeric: tabular-nums;
+}
   .risultato-num {
   background: none;          /* niente box */
   border: none;              /* niente bordo */
@@ -397,19 +397,10 @@
 
 .risultato-num.tavolino {
   font-style: italic;
-  opacity: 0.8;
+  color: var(--grigio); /* grigio invece di gold */
+  opacity: 1;           /* togli l'opacity precedente */
 }
 
-.tav-asterisco {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.85rem;
-  color: var(--grigio);
-  font-weight: 700;
-  align-self: flex-start; /* asterisco in alto */
-  line-height: 1;
-  margin-left: 1px;
-  cursor: default;
-}
   /* BADGE FINALI */
   .finale-badge {
     display: inline-block;
