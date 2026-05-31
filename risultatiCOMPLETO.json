@@ -56,7 +56,7 @@
 {"id":"match55","giornata":6,"data":"2026-05-31","ora":"16:00","casa":"PINEROLO","trasferta":"CARRARA","golCasa":0,"golTrasferta":3,"tavolino": true},
 {"id":"match56","giornata":6,"data":"2026-05-31","ora":"17:00","casa":"LASCARIS","trasferta":"PRO COLLEGNO","golCasa":7,"golTrasferta":3},
 {"id":"match57","giornata":6,"data":"2026-05-31","ora":"18:00","casa":"POZZOMAINA","trasferta":"CENTROCAMPO","golCasa":0,"golTrasferta":3},
-{"id":"match58","giornata":6,"data":"2026-05-31","ora":"19:00","casa":"LUCENTO ROSSO","trasferta":"LUCENTO ROSA","golCasa":null,"golTrasferta":null},
+{"id":"match58","giornata":6,"data":"2026-05-31","ora":"19:00","casa":"LUCENTO ROSSO","trasferta":"LUCENTO ROSA","golCasa":2,"golTrasferta":3},
 {"id":"match59","giornata":3,"data":"2026-06-01","ora":"19:00","casa":"PRO COLLEGNO","trasferta":"P. BRUINESE","golCasa":null,"golTrasferta":null},
 {"id":"match60","giornata":4,"data":"2026-06-01","ora":"20:00","casa":"PINEROLO","trasferta":"CENTROCAMPO","golCasa":null,"golTrasferta":null}
 ]
