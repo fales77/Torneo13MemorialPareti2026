@@ -335,7 +335,7 @@
   /* RISULTATO */
   .risultato-box {
     display: grid;
-	grid-template-columns: 16px 10px 12px; /* 👈 chiave */
+	grid-template-columns: 10px 16px 10px 12px; /* asterisco + num + sep + num  👈 chiave */
     align-items: center;
     gap: 2px;
 	min-width: 55px;      /* 👈 fondamentale */
@@ -402,7 +402,7 @@
 
 .tav-asterisco {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: var(--grigio);
   font-weight: 700;
   align-self: flex-start; /* asterisco in alto */
@@ -1062,11 +1062,12 @@ fetch("risultatiCOMPLETO.json")
 		const asterisco = match.tavolino
 		? `<span class="tav-asterisco" title="Risultato a tavolino">*</span>`
 		: '';
+		
 		risultatoHTML = `
+		${asterisco}
 		<span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golCasa ?? '–'}</span>
 		<span class="risultato-sep">-</span>
 		<span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golTrasferta ?? '–'}</span>
-		${asterisco}
 		`;
 		}
 
