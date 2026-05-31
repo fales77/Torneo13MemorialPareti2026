@@ -395,6 +395,21 @@
   display: block; /* ✅ questo sistema l'allineamento */
 }
 
+.risultato-num.tavolino {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.tav-asterisco {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem;
+  color: var(--grigio);
+  font-weight: 700;
+  align-self: flex-start; /* asterisco in alto */
+  line-height: 1;
+  margin-left: 1px;
+  cursor: default;
+}
   /* BADGE FINALI */
   .finale-badge {
     display: inline-block;
@@ -1042,14 +1057,18 @@ fetch("risultatiCOMPLETO.json")
       let risultatoHTML = "";
 
       if (rinviata) {
-        risultatoHTML = `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`;
-      } else {
-        risultatoHTML = `
-          <span class="risultato-num">${match.golCasa ?? '–'}</span>
-          <span class="risultato-sep">-</span>
-          <span class="risultato-num">${match.golTrasferta ?? '–'}</span>
-        `;
-      }
+		risultatoHTML = `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`;	
+		} else {
+		const asterisco = match.tavolino
+		? `<span class="tav-asterisco" title="Risultato a tavolino">*</span>`
+		: '';
+		risultatoHTML = `
+		<span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golCasa ?? '–'}</span>
+		<span class="risultato-sep">-</span>
+		<span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golTrasferta ?? '–'}</span>
+		${asterisco}
+		`;
+		}
 
       const classeRisultato = finita ? "match-done" : "";
 
