@@ -401,6 +401,10 @@
   opacity: 1;           /* togli l'opacity precedente */
 }
 
+.risultato-box.tavolino-box .risultato-sep {
+  color: var(--grigio) !important;
+}
+
   /* BADGE FINALI */
   .finale-badge {
     display: inline-block;
@@ -1058,6 +1062,7 @@ fetch("risultatiCOMPLETO.json")
 	  }
 
       const classeRisultato = finita ? "match-done" : "";
+	  const classeTavolino = match.tavolino ? "tavolino-box" : "";
 
       // ✅ HTML CARD (pulito e stabile)
       card.innerHTML = `
