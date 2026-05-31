@@ -1048,19 +1048,14 @@ fetch("risultatiCOMPLETO.json")
       let risultatoHTML = "";
 
       if (rinviata) {
-		risultatoHTML = `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`;	
-		} else {
-		const asterisco = match.tavolino
-		? `<span class="tav-asterisco" title="Risultato a tavolino">*</span>`
-		: '';
-		
-		risultatoHTML = `
-		${asterisco}
-		<span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golCasa ?? '–'}</span>
-		<span class="risultato-sep">-</span>
-		<span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golTrasferta ?? '–'}</span>
-		`;
-		}
+	  risultatoHTML = `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`;
+	  } else {
+	  risultatoHTML = `
+	  <span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golCasa ?? '–'}</span>
+	  <span class="risultato-sep">-</span>
+	  <span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golTrasferta ?? '–'}</span>
+	  `;
+	  }
 
       const classeRisultato = finita ? "match-done" : "";
 
