@@ -747,13 +747,36 @@ function calcolaClassifica() {
   const stats = {};
   SQUADRE.forEach(n => stats[n] = { nome:n, g:0, pt:0, rf:0, rs:0 });
 
+  // ✅ MAPPA SCONTRI DIRETTI
+  const scontriDiretti = {};
+
+  document.querySelectorAll('#calendario .partita-card').forEach(card => {
+    const casa = card.dataset.casa;
+    const ospite = card.dataset.ospite;
+    if (card.querySelector('.risultato-rinvio')) return;
+    const nums = card.querySelectorAll('.risultato-num');
+    if (nums.length < 2) return;
+    const vC = nums[0].textContent.trim();
+    const vO = nums[1].textContent.trim();
+    if (vC === '–' || vO === '–') return;
+    const gC = parseInt(vC);
+    const gO = parseInt(vO);
+    if (isNaN(gC) || isNaN(gO)) return;
+
+    const key = [casa, ospite].sort().join('|');
+    if (!scontriDiretti[key]) scontriDiretti[key] = {};
+
+    if (gC > gO) scontriDiretti[key].vincitore = casa;
+    else if (gO > gC) scontriDiretti[key].vincitore = ospite;
+    else scontriDiretti[key].vincitore = null; // pareggio
+  });
+
   document.querySelectorAll('#calendario .partita-card').forEach(card => {
 
     const casa = card.dataset.casa;
     const ospite = card.dataset.ospite;
-	if (card.querySelector('.risultato-rinvio')) return;
+    if (card.querySelector('.risultato-rinvio')) return;
     const nums = card.querySelectorAll('.risultato-num');
-	
 
     if (nums.length < 2) return;
 
@@ -776,12 +799,25 @@ function calcolaClassifica() {
     else { stats[casa].pt++; stats[ospite].pt++; }
   });
 
-  const sorted = Object.values(stats).sort((a,b)=>{
+  const sorted = Object.values(stats).sort((a, b) => {
+    // 1️⃣ Punti
     if (b.pt !== a.pt) return b.pt - a.pt;
+
+    // 2️⃣ Scontro diretto (solo tra 2 squadre a pari punti)
+    const key = [a.nome, b.nome].sort().join('|');
+    const sd = scontriDiretti[key];
+    if (sd && sd.vincitore === b.nome) return 1;
+    if (sd && sd.vincitore === a.nome) return -1;
+
+    // 3️⃣ Differenza reti
     const drA = a.rf - a.rs;
     const drB = b.rf - b.rs;
     if (drB !== drA) return drB - drA;
+
+    // 4️⃣ Reti fatte
     if (b.rf !== a.rf) return b.rf - a.rf;
+
+    // 5️⃣ Ordine alfabetico
     return a.nome.localeCompare(b.nome);
   });
 
@@ -798,8 +834,8 @@ function calcolaClassifica() {
     tr.className=pos<=12?'row-qualif':'row-out';
 
     tr.innerHTML = `
-	<td>${pos <= 12 ? '<div class="qualif-bar"></div>' : ''}
-	<span class="pos-num">${pos}</span></td>
+    <td>${pos <= 12 ? '<div class="qualif-bar"></div>' : ''}
+    <span class="pos-num">${pos}</span></td>
 
       <td class="team-name">
         <a href="squadra.html?team=${encodeURIComponent(sq.nome)}">${sq.nome}</a>
@@ -895,7 +931,7 @@ function popolaQuarti(){
     m.golCasa === null || m.golTrasferta === null
   ).length === 0;
 
-  if (!completato) return; // 🔥 QUESTO RISOLVE TUTTO
+  if (!completato) return;
 
   const ottavi=document.querySelectorAll('#ottavi .partita-card');
   const quarti=document.querySelectorAll('#quarti .partita-card');
@@ -1007,6 +1043,8 @@ fetch("risultatiCOMPLETO.json")
 .then(r => r.json())
 .then(data => {
 
+  window.RISULTATI = data;
+
   const container = document.getElementById("calendario-dinamico");
   container.innerHTML = "";
 
@@ -1052,17 +1090,17 @@ fetch("risultatiCOMPLETO.json")
       let risultatoHTML = "";
 
       if (rinviata) {
-	  risultatoHTML = `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`;
-	  } else {
-	  risultatoHTML = `
-	  <span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golCasa ?? '–'}</span>
-	  <span class="risultato-sep">-</span>
-	  <span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golTrasferta ?? '–'}</span>
-	  `;
-	  }
+      risultatoHTML = `<span class="risultato-rinvio">${match.label || 'RINV.'}</span>`;
+      } else {
+      risultatoHTML = `
+      <span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golCasa ?? '–'}</span>
+      <span class="risultato-sep">-</span>
+      <span class="risultato-num ${match.tavolino ? 'tavolino' : ''}">${match.golTrasferta ?? '–'}</span>
+      `;
+      }
 
       const classeRisultato = finita ? "match-done" : "";
-	  const classeTavolino = match.tavolino ? "tavolino-box" : "";
+      const classeTavolino = match.tavolino ? "tavolino-box" : "";
 
       // ✅ HTML CARD (pulito e stabile)
       card.innerHTML = `
@@ -1098,7 +1136,7 @@ fetch("risultatiCOMPLETO.json")
 
 })
 .catch(err => console.error(err));
-``
+
 </script>
 
 <footer class="footer">
