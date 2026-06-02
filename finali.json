@@ -1,8 +1,8 @@
 [
   { "fase": "Ottavi","label": "Gara 1","data": "2026-06-02","ora": "15:00","casa": "SETTIMO","trasferta": "CARRARA","golCasa": 1,"golTrasferta": 0 },
   { "fase": "Ottavi","label": "Gara 2","data": "2026-06-02","ora": "16:00","casa": "CENTROCAMPO","trasferta": "LUCENTO ROSSO","golCasa": 2,"golTrasferta": 3 },
-  { "fase": "Ottavi","label": "Gara 3","data": "2026-06-02","ora": "18:00","casa": "BORGARO","trasferta": "CIT TURIN","golCasa": null,"golTrasferta": null },
-  { "fase": "Ottavi","label": "Gara 4","data": "2026-06-02","ora": "17:00","casa": "LASCARIS","trasferta": "CHISOLA","golCasa": null,"golTrasferta": null },
+  { "fase": "Ottavi","label": "Gara 3","data": "2026-06-02","ora": "18:00","casa": "BORGARO","trasferta": "CIT TURIN","golCasa": 8,"golTrasferta": 0 },
+  { "fase": "Ottavi","label": "Gara 4","data": "2026-06-02","ora": "17:00","casa": "LASCARIS","trasferta": "CHISOLA","golCasa": 2,"golTrasferta": 3 },
 
   { "fase": "Quarti","label": "1 Quar","data": "2026-06-04","ora": "18:00","casa": "SISPORT","trasferta": "CHISOLA","golCasa": null,"golTrasferta": null },
   { "fase": "Quarti","label": "2 Quar","data": "2026-06-04","ora": "19:00","casa": "VANCHIGLIA","trasferta": "BORGARO","golCasa": null,"golTrasferta": null },
