@@ -94,53 +94,50 @@ h1 {
   gap: 6px;
 }
 
-/* PARTITE FINALI */
+/* PARTITE FINALI — stesso riquadro del girone */
 .partita-finale {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(245,200,66,0.15);
-  padding: 7px 10px;
-  margin: 6px 0;
+  background: rgba(255,255,255,0.05);
+  padding: 5px 8px;
+  margin: 5px 0;
   border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
 
+/* riga 1: badge fase + data + ora */
 .finale-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #999;
+  line-height: 1;
+  margin-bottom: 5px;
 }
 
+/* badge colorato per fase */
 .fase-badge {
   display: inline-block;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 2px 7px;
+  padding: 1px 6px;
   border-radius: 4px;
   background: #f5c842;
   color: #0a1628;
   flex-shrink: 0;
+  line-height: 1.6;
 }
-
-/* colori badge per fase */
 .fase-badge.ottavi     { background: #3b82f6; color: #fff; }
 .fase-badge.quarti     { background: #8b5cf6; color: #fff; }
 .fase-badge.semifinali { background: #f97316; color: #fff; }
 .fase-badge.finale     { background: #f5c842; color: #0a1628; }
 .fase-badge.terzo      { background: #6b7280; color: #fff; }
 
-.finale-datetime {
-  font-size: 0.75rem;
-  color: #888;
-}
-
-.finale-match {
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.2;
+/* riga 2: squadre + risultato sulla stessa linea (identico a .match-main) */
+.finale-match-main {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
 }
 
 .vs-sep {
@@ -152,12 +149,6 @@ h1 {
 
 .team-selected {
   color: #f5c842;
-}
-
-.risultato-finale {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-top: 1px;
 }
 
 .nessuna-finale {
@@ -336,15 +327,15 @@ fetch('finali.json')
       const div = document.createElement('div');
       div.className = 'partita-finale';
       div.innerHTML = `
-        <div class="finale-meta">
-          <span class="fase-badge ${badgeClass}">${m.fase}</span>
-          <span class="finale-datetime">📅 ${formattaData(m.data)} | 🕒 ${m.ora}</span>
-        </div>
-        <div class="finale-match">
-          ${casa} <span class="vs-sep">vs</span> ${trasferta}
-        </div>
-        <div class="risultato-finale" style="color:${colore};">
-          ${risultatoTesto}
+        <div class="match-row">
+          <div class="finale-meta">
+            <span class="fase-badge ${badgeClass}">${m.fase}</span>
+            <span>📅 ${formattaData(m.data)} | 🕒 ${m.ora}</span>
+          </div>
+          <span class="finale-match-main">
+            <strong>${casa} vs ${trasferta}</strong> :
+            <span style="color:${colore}; font-weight:700;">${risultatoTesto}</span>
+          </span>
         </div>
       `;
       container.appendChild(div);
