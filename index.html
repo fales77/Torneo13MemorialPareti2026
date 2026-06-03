@@ -897,7 +897,7 @@ function popolaOttavi(){
     card.dataset.ospite=ospite;
 
     card.querySelector('.squadre').innerHTML =
-      `${casa} <span class="vs-sep">vs</span> ${ospite}`;
+      `<span class="team-label">${casa}</span> <span class="vs-sep">vs</span> <span class="team-label">${ospite}</span>`;
   });
 }
 
@@ -924,7 +924,7 @@ function inizializzaQuarti(){
     }
 
     card.querySelector('.squadre').innerHTML =
-      `${nome} <span class="vs-sep">vs</span> ${labels[i]}`;
+      `<span class="team-label">${nome}</span> <span class="vs-sep">vs</span> <span class="team-label">${labels[i]}</span>`;
   });
 }
 
@@ -952,7 +952,7 @@ function popolaQuarti(){
 
     q.dataset.ospite=vinc;
     q.querySelector('.squadre').innerHTML =
-      `${c[idx].nome} <span class="vs-sep">vs</span> ${vinc}`;
+      `<span class="team-label">${c[idx].nome}</span> <span class="vs-sep">vs</span> <span class="team-label">${vinc}</span>`;
   });
 }
 
@@ -965,11 +965,11 @@ function popolaSemifinali(){
 
   if(v[0] && v[3])
     semi[0].querySelector('.squadre').innerHTML =
-      `${v[0]} <span class="vs-sep">vs</span> ${v[3]}`;
+      `<span class="team-label">${v[0]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[3]}</span>`;
 
   if(v[1] && v[2])
     semi[1].querySelector('.squadre').innerHTML =
-      `${v[1]} <span class="vs-sep">vs</span> ${v[2]}`;
+      `<span class="team-label">${v[1]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[2]}</span>`;
 }
 
 // ✅ FINALE
@@ -982,7 +982,7 @@ function popolaFinale(){
 
   if(v1 && v2){
     finali[1].querySelector('.squadre').innerHTML =
-      `${v1} <span class="vs-sep">vs</span> ${v2}`;
+      `<span class="team-label">${v1}</span> <span class="vs-sep">vs</span> <span class="team-label">${v2}</span>`;
   }
 }
 
