@@ -237,7 +237,7 @@ function classeBadge(fase) {
 }
 
 // ══════════════════════════════════════════
-// 1️⃣ CARICA CALENDARIO (risultatiCOMPLETO.json)
+// 1️⃣  CARICA CALENDARIO (risultatiCOMPLETO.json)
 // ══════════════════════════════════════════
 fetch('risultatiCOMPLETO.json')
   .then(res => res.json())
@@ -289,7 +289,7 @@ fetch('risultatiCOMPLETO.json')
             📅 ${formattaData(m.data)} | 🕒 ${m.ora} | ${m.giornata}ª GIORNATA
           </span>
 		  <div class="match-main">
-			<strong class="teams">${casa} vs ${trasferta}</strong>
+			<strong class="teams">${casa} vs ${trasferta} :</strong>
 			<span class="result" style="color:${colore};">
 			${risultato}
 			</span>
@@ -355,7 +355,7 @@ fetch('finali.json')
             <span>📅 ${formattaData(m.data)} | 🕒 ${m.ora}</span>
           </div>
           <span class="match-main">
-            <strong>${casa} vs ${trasferta}</strong> :
+            <strong>${casa} vs ${trasferta} :</strong>
             <span style="color:${colore}; font-weight:700;">${risultatoTesto}</span>
           </span>
         </div>
