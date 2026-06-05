@@ -138,13 +138,6 @@ h1 {
 .fase-badge.finale     { background: #f5c842; color: #0a1628; }
 .fase-badge.terzo      { background: #6b7280; color: #fff; }
 
-/* riga 2: squadre + risultato sulla stessa linea (identico a .match-main) */
-.finale-match-main {
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-}
-
 .vs-sep {
   color: #888;
   font-style: italic;
@@ -162,10 +155,15 @@ h1 {
   padding: 8px 0;
   font-style: italic;
 }
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+}
 </style>
 </head>
 
 <body>
+<div class="container">
 <div class="header-squadra">
   <a href="javascript:history.back()" class="back-btn">
     <span class="label">Back</span>
@@ -174,11 +172,11 @@ h1 {
 </div>
 
 <!-- CALENDARIO -->
-<div class="sezione-titolo">📅 Fase Girone Qualificazione</div>
+<div class="sezione-titolo">📅 Fase Calendario</div>
 <div id="lista-partite"></div>
 
 <!-- FASI FINALI -->
-<div class="sezione-titolo">🎯 Fasi Finali</div>
+<div class="sezione-titolo">🎯 Fase Finali</div>
 <div id="lista-finali"></div>
 
 <script>
@@ -315,7 +313,7 @@ fetch('finali.json')
       let colore = "#ffffff";
 
       if (gC !== null && gO !== null) {
-        risultatoTesto = `${gC} - ${gO}`;
+        risultatoTesto = `${gC}-${gO}`;
         const ruolo = m.casa === team ? 'casa' : 'trasferta';
         colore = coloreRisultato(gC, gO, ruolo);
       }
@@ -337,7 +335,7 @@ fetch('finali.json')
             <span class="fase-badge ${badgeClass}">${m.fase}</span>
             <span>📅 ${formattaData(m.data)} | 🕒 ${m.ora}</span>
           </div>
-          <span class="finale-match-main">
+          <span class="match-main">
             <strong>${casa} vs ${trasferta}</strong> :
             <span style="color:${colore}; font-weight:700;">${risultatoTesto}</span>
           </span>
@@ -354,6 +352,6 @@ fetch('finali.json')
   });
 
 </script>
-
+</div>
 </body>
 </html>
