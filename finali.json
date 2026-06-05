@@ -6,7 +6,7 @@
 
   { "fase": "Quarti","label": "1 Quar","data": "2026-06-04","ora": "21:00","casa": "SISPORT","trasferta": "CHISOLA","golCasa": 4,"golTrasferta": 0 },
   { "fase": "Quarti","label": "2 Quar","data": "2026-06-04","ora": "19:00","casa": "VANCHIGLIA","trasferta": "BORGARO","golCasa": 5,"golTrasferta": 3 },
-  { "fase": "Quarti","label": "3 Quar","data": "2026-06-04","ora": "20:00","casa": "STS","trasferta": "LUCENTO ROSSO","golCasa": 1,"golTrasferta": 1 },
+  { "fase": "Quarti","label": "3 Quar","data": "2026-06-04","ora": "20:00","casa": "STS","trasferta": "LUCENTO ROSSO","golCasa": 4,"golTrasferta": 3* },
   { "fase": "Quarti","label": "4 Quar","data": "2026-06-04","ora": "18:00","casa": "LUCENTO ROSA","trasferta": "SETTIMO","golCasa": 2,"golTrasferta": 3 },
 
   { "fase": "Semifinali","label": "Semif 1","data": "2026-06-06","ora": "20:00","casa": "SISPORT","trasferta": "SETTIMO","golCasa": null,"golTrasferta": null },
