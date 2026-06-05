@@ -14,6 +14,12 @@ body {
   padding: 20px;
 }
 
+  /* LAYOUT */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 h1 {
   color: #f5c842;
   font-size: 1.4rem;
@@ -77,6 +83,21 @@ h1 {
   margin: 0;
   padding: 0;
   line-height: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.match-main .teams {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.match-main .result {
+  font-weight: 700;
+  min-width: 40px;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 /* SEZIONE TITOLO */
@@ -155,10 +176,7 @@ h1 {
   padding: 8px 0;
   font-style: italic;
 }
-.container {
-  max-width: 700px;
-  margin: 0 auto;
-}
+
 </style>
 </head>
 
@@ -270,12 +288,13 @@ fetch('risultatiCOMPLETO.json')
           <span class="match-datetime">
             📅 ${formattaData(m.data)} | 🕒 ${m.ora} | ${m.giornata}ª GIORNATA
           </span>
-          <span class="match-main">
-            <strong>${casa} vs ${trasferta}</strong> :
-            <span class="${classeExtra}" style="color:${colore}; font-weight:700;">
-              ${risultato}
-            </span>
-          </span>
+		  <div class="match-main">
+			<strong class="teams">${casa} vs ${trasferta}</strong>
+			<span class="result" style="color:${colore};">
+			${risultato}
+			</span>
+		  </div>
+
         </div>
       `;
       container.appendChild(div);
