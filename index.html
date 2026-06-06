@@ -864,8 +864,8 @@ function getVincitore(card){
   if (!casa || !ospite) return null;
 
   const nums = card.querySelectorAll('.risultato-num');
-  const gC = parseInt(nums[0].textContent);
-  const gO = parseInt(nums[1].textContent);
+  const gC = parseInt(nums[0].textContent.replace('*',''));
+  const gO = parseInt(nums[1].textContent.replace('*',''));
 
   if (isNaN(gC) || isNaN(gO)) return null;
 
@@ -958,18 +958,28 @@ function popolaQuarti(){
 
 // ✅ SEMIFINALI
 function popolaSemifinali(){
-  const quarti=document.querySelectorAll('#quarti .partita-card');
-  const semi=document.querySelectorAll('#semifinali .partita-card');
+  const quarti = document.querySelectorAll('#quarti .partita-card');
+  const semi = document.querySelectorAll('#semifinali .partita-card');
 
-  const v=Array.from(quarti).map(getVincitore);
+  const v = Array.from(quarti).map(getVincitore);
 
-  if(v[0] && v[3])
+  // ✅ SEMIFINALE 1
+  if (v[0] && v[3]) {
+    semi[0].dataset.casa = v[0];
+    semi[0].dataset.ospite = v[3];
+
     semi[0].querySelector('.squadre').innerHTML =
       `<span class="team-label">${v[0]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[3]}</span>`;
+  }
 
-  if(v[1] && v[2])
+  // ✅ SEMIFINALE 2
+  if (v[1] && v[2]) {
+    semi[1].dataset.casa = v[1];
+    semi[1].dataset.ospite = v[2];
+
     semi[1].querySelector('.squadre').innerHTML =
       `<span class="team-label">${v[1]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[2]}</span>`;
+  }
 }
 
 // ✅ FINALE
