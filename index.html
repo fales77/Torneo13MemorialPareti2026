@@ -983,31 +983,16 @@ function popolaSemifinali(){
 }
 
 // ✅ FINALE
-ffunction popolaFinale(){
-  const semi = document.querySelectorAll('#semifinali .partita-card');
-  const finali = document.querySelectorAll('#finali-finali .partita-card');
+function popolaFinale(){
+  const semi=document.querySelectorAll('#semifinali .partita-card');
+  const finali=document.querySelectorAll('#finali-finali .partita-card');
 
-  const v1 = getVincitore(semi[0]);
-  const v2 = getVincitore(semi[1]);
+  const v1=getVincitore(semi[0]);
+  const v2=getVincitore(semi[1]);
 
-  const c1 = semi[0].dataset.casa;
-  const o1 = semi[0].dataset.ospite;
-  const c2 = semi[1].dataset.casa;
-  const o2 = semi[1].dataset.ospite;
-
-  // ✅ FINALE
-  if (v1 && v2) {
+  if(v1 && v2){
     finali[1].querySelector('.squadre').innerHTML =
       `<span class="team-label">${v1}</span> <span class="vs-sep">vs</span> <span class="team-label">${v2}</span>`;
-  }
-
-  // ✅ 3° / 4°
-  if (v1 && v2 && c1 && o1 && c2 && o2) {
-    const p1 = (v1 === c1) ? o1 : c1;
-    const p2 = (v2 === c2) ? o2 : c2;
-
-    finali[0].querySelector('.squadre').innerHTML =
-      `<span class="team-label">${p1}</span> <span class="vs-sep">vs</span> <span class="team-label">${p2}</span>`;
   }
 }
 
