@@ -956,6 +956,7 @@ function popolaQuarti(){
   });
 }
 
+
 // ✅ SEMIFINALI
 function popolaSemifinali(){
   const quarti=document.querySelectorAll('#quarti .partita-card');
@@ -963,26 +964,48 @@ function popolaSemifinali(){
 
   const v=Array.from(quarti).map(getVincitore);
 
-  if(v[0] && v[3])
-    semi[0].querySelector('.squadre').innerHTML =
-      `<span class="team-label">${v[0]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[3]}</span>`;
+  if(v[0] && v[3]) {
+  semi[0].dataset.casa = v[0];
+  semi[0].dataset.ospite = v[3];
 
-  if(v[1] && v[2])
-    semi[1].querySelector('.squadre').innerHTML =
-      `<span class="team-label">${v[1]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[2]}</span>`;
+  semi[0].querySelector('.squadre').innerHTML =
+    `<span class="team-label">${v[0]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[3]}</span>`;
+}
+
+	if(v[1] && v[2]) {
+		semi[1].dataset.casa = v[1];
+		semi[1].dataset.ospite = v[2];
+		semi[1].querySelector('.squadre').innerHTML =
+    `<span class="team-label">${v[1]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[2]}</span>`;
 }
 
 // ✅ FINALE
 function popolaFinale(){
-  const semi=document.querySelectorAll('#semifinali .partita-card');
-  const finali=document.querySelectorAll('#finali-finali .partita-card');
+  const semi = document.querySelectorAll('#semifinali .partita-card');
+  const finali = document.querySelectorAll('#finali-finali .partita-card');
 
-  const v1=getVincitore(semi[0]);
-  const v2=getVincitore(semi[1]);
+  const v1 = getVincitore(semi[0]);
+  const v2 = getVincitore(semi[1]);
 
-  if(v1 && v2){
+  // ✅ vincitori → finale
+  if (v1 && v2) {
     finali[1].querySelector('.squadre').innerHTML =
       `<span class="team-label">${v1}</span> <span class="vs-sep">vs</span> <span class="team-label">${v2}</span>`;
+  }
+
+  // ✅ perdenti → 3°/4° posto
+  const c1 = semi[0].dataset.casa;
+  const o1 = semi[0].dataset.ospite;
+  const c2 = semi[1].dataset.casa;
+  const o2 = semi[1].dataset.ospite;
+
+  if (v1 && v2 && c1 && o1 && c2 && o2) {
+
+    const p1 = (v1 === c1) ? o1 : c1;
+    const p2 = (v2 === c2) ? o2 : c2;
+
+    finali[0].querySelector('.squadre').innerHTML =
+      `<span class="team-label">${p1}</span> <span class="vs-sep">vs</span> <span class="team-label">${p2}</span>`;
   }
 }
 
