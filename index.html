@@ -676,13 +676,13 @@ footer {
   <div class="partita-card finale-layout" data-casa="" data-ospite="">
     <div class="blocco-sx"><span class="orario">20:00</span><span class="finale-badge">Semif1</span></div>
     <div class="partita-vs"><span class="squadre">Vinc. 1 Quar <span class="vs-sep">vs</span> Vinc. 4 Quar</span></div>
-    <div class="risultato-box"><span class="risultato-num">2</span><span class="risultato-sep">-</span><span class="risultato-num">0</span></div>
+    <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
   </div>
 
   <div class="partita-card finale-layout" data-casa="" data-ospite="">
     <div class="blocco-sx"><span class="orario">21:00</span><span class="finale-badge">Semif2</span></div>
     <div class="partita-vs"><span class="squadre">Vinc. 2 Quar <span class="vs-sep">vs</span> Vinc. 3 Quar</span></div>
-    <div class="risultato-box"><span class="risultato-num">3</span><span class="risultato-sep">-</span><span class="risultato-num">1</span></div>
+    <div class="risultato-box"><span class="risultato-num">–</span><span class="risultato-sep">-</span><span class="risultato-num">–</span></div>
   </div>
 </div>
 
@@ -935,7 +935,7 @@ function popolaQuarti(){
     m.golCasa === null || m.golTrasferta === null
   ).length === 0;
 
-  // ✅ lascio sempre girare (le finali sono manuali)
+  if (!completato) return;
 
   const ottavi=document.querySelectorAll('#ottavi .partita-card');
   const quarti=document.querySelectorAll('#quarti .partita-card');
@@ -949,16 +949,12 @@ function popolaQuarti(){
 
     const idx=mappa[i];
     const q=quarti[idx];
-	
-	q.dataset.ospite = vinc;
-	// ✅ IMPORTANTISSIMO
-	q.dataset.casa = c[idx].nome;
 
+    q.dataset.ospite=vinc;
     q.querySelector('.squadre').innerHTML =
       `<span class="team-label">${c[idx].nome}</span> <span class="vs-sep">vs</span> <span class="team-label">${vinc}</span>`;
   });
 }
-
 
 // ✅ SEMIFINALI
 function popolaSemifinali(){
@@ -967,48 +963,26 @@ function popolaSemifinali(){
 
   const v=Array.from(quarti).map(getVincitore);
 
-  if(v[0] && v[3]) {
-  semi[0].dataset.casa = v[0];
-  semi[0].dataset.ospite = v[3];
+  if(v[0] && v[3])
+    semi[0].querySelector('.squadre').innerHTML =
+      `<span class="team-label">${v[0]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[3]}</span>`;
 
-  semi[0].querySelector('.squadre').innerHTML =
-    `<span class="team-label">${v[0]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[3]}</span>`;
-}
-
-	if(v[1] && v[2]) {
-		semi[1].dataset.casa = v[1];
-		semi[1].dataset.ospite = v[2];
-		semi[1].querySelector('.squadre').innerHTML =
-    `<span class="team-label">${v[1]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[2]}</span>`;
+  if(v[1] && v[2])
+    semi[1].querySelector('.squadre').innerHTML =
+      `<span class="team-label">${v[1]}</span> <span class="vs-sep">vs</span> <span class="team-label">${v[2]}</span>`;
 }
 
 // ✅ FINALE
 function popolaFinale(){
-  const semi = document.querySelectorAll('#semifinali .partita-card');
-  const finali = document.querySelectorAll('#finali-finali .partita-card');
+  const semi=document.querySelectorAll('#semifinali .partita-card');
+  const finali=document.querySelectorAll('#finali-finali .partita-card');
 
-  const v1 = getVincitore(semi[0]);
-  const v2 = getVincitore(semi[1]);
+  const v1=getVincitore(semi[0]);
+  const v2=getVincitore(semi[1]);
 
-  // ✅ vincitori → finale
-  if (v1 && v2) {
+  if(v1 && v2){
     finali[1].querySelector('.squadre').innerHTML =
       `<span class="team-label">${v1}</span> <span class="vs-sep">vs</span> <span class="team-label">${v2}</span>`;
-  }
-
-  // ✅ perdenti → 3°/4° posto
-  const c1 = semi[0].dataset.casa;
-  const o1 = semi[0].dataset.ospite;
-  const c2 = semi[1].dataset.casa;
-  const o2 = semi[1].dataset.ospite;
-
-  if (v1 && v2 && c1 && o1 && c2 && o2) {
-
-    const p1 = (v1 === c1) ? o1 : c1;
-    const p2 = (v2 === c2) ? o2 : c2;
-
-    finali[0].querySelector('.squadre').innerHTML =
-      `<span class="team-label">${p1}</span> <span class="vs-sep">vs</span> <span class="team-label">${p2}</span>`;
   }
 }
 
