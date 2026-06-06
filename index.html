@@ -982,17 +982,40 @@ function popolaSemifinali(){
   }
 }
 
-// ✅ FINALE
+// ✅ FINALE 1°/2° E 3°/4° POSTO AGGIORNATA
 function popolaFinale(){
-  const semi=document.querySelectorAll('#semifinali .partita-card');
-  const finali=document.querySelectorAll('#finali-finali .partita-card');
+  const semi = document.querySelectorAll('#semifinali .partita-card');
+  const finali = document.querySelectorAll('#finali-finali .partita-card');
 
-  const v1=getVincitore(semi[0]);
-  const v2=getVincitore(semi[1]);
+  if (semi.length < 2 || finali.length < 2) return;
 
-  if(v1 && v2){
+  // Estraiamo i dati delle due semifinali
+  const casaSemi1 = semi[0].dataset.casa;
+  const ospiteSemi1 = semi[0].dataset.ospite;
+  const vincSemi1 = getVincitore(semi[0]);
+
+  const casaSemi2 = semi[1].dataset.casa;
+  const ospiteSemi2 = semi[1].dataset.ospite;
+  const vincSemi2 = getVincitore(semi[1]);
+
+  // Procediamo solo se entrambe le semifinali hanno un vincitore decretato
+  if (vincSemi1 && vincSemi2) {
+    
+    // Trova i perdenti confrontando il vincitore con le squadre della card
+    const perdSemi1 = (vincSemi1 === casaSemi1) ? ospiteSemi1 : casaSemi1;
+    const perdSemi2 = (vincSemi2 === casaSemi2) ? ospiteSemi2 : casaSemi2;
+
+    // 1️⃣ Popola la finale 3° / 4° posto (finali[0])
+    finali[0].dataset.casa = perdSemi1;
+    finali[0].dataset.ospite = perdSemi2;
+    finali[0].querySelector('.squadre').innerHTML =
+      `<span class="team-label">${perdSemi1}</span> <span class="vs-sep">vs</span> <span class="team-label">${perdSemi2}</span>`;
+
+    // 2️⃣ Popola la finalissima 1° / 2° posto (finali[1])
+    finali[1].dataset.casa = vincSemi1;
+    finali[1].dataset.ospite = vincSemi2;
     finali[1].querySelector('.squadre').innerHTML =
-      `<span class="team-label">${v1}</span> <span class="vs-sep">vs</span> <span class="team-label">${v2}</span>`;
+      `<span class="team-label" style="color:var(--gold-light); font-weight:700;">${vincSemi1}</span> <span class="vs-sep">vs</span> <span class="team-label" style="color:var(--gold-light); font-weight:700;">${vincSemi2}</span>`;
   }
 }
 
