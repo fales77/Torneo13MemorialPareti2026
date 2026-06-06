@@ -935,7 +935,7 @@ function popolaQuarti(){
     m.golCasa === null || m.golTrasferta === null
   ).length === 0;
 
-  if (!completato) return;
+  // ✅ lascio sempre girare (le finali sono manuali)
 
   const ottavi=document.querySelectorAll('#ottavi .partita-card');
   const quarti=document.querySelectorAll('#quarti .partita-card');
@@ -949,8 +949,11 @@ function popolaQuarti(){
 
     const idx=mappa[i];
     const q=quarti[idx];
+	
+	q.dataset.ospite = vinc;
+	// ✅ IMPORTANTISSIMO
+	q.dataset.casa = c[idx].nome;
 
-    q.dataset.ospite=vinc;
     q.querySelector('.squadre').innerHTML =
       `<span class="team-label">${c[idx].nome}</span> <span class="vs-sep">vs</span> <span class="team-label">${vinc}</span>`;
   });
