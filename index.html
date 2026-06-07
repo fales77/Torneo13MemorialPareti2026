@@ -1066,7 +1066,21 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     }
 
     // ✅ scroll standard per altre sezioni
-    if (target) {
+    if (href === '#finali') {
+  const finalDay = document.getElementById('finali-finali');
+  const scrollTarget = finalDay || target;
+  window.scrollTo({
+    top: scrollTarget.offsetTop - 60,
+    behavior: 'smooth'
+  });
+  // rilancia coriandoli
+  if (window.resetCoriandoli) window.resetCoriandoli();
+  setTimeout(() => {
+    if (window.lanciaFuochi) window.lanciaFuochi();
+  }, 600); // aspetta che lo scroll sia quasi finito
+  return;
+}
+	if (target) {
       window.scrollTo({
         top: target.offsetTop - 60,
         behavior: 'smooth'
@@ -1197,6 +1211,7 @@ fetch("risultatiCOMPLETO.json")
   let particles = [];
   let animId    = null;
   let triggered = false;
+  window.resetCoriandoli = function() { triggered = false; };
 
   // ✅ Colori sobri: oro, bianco, blu chiaro (palette torneo)
   const COLORS = [
@@ -1230,7 +1245,7 @@ fetch("risultatiCOMPLETO.json")
   }
 
   // ✅ Lancia i coriandoli
-  function lanciaFuochi() {
+  window.lanciaFuochi = function lanciaFuochi() {
     if (triggered) return;
     triggered = true;
 
