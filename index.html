@@ -1246,10 +1246,18 @@ fetch("risultatiCOMPLETO.json")
 
   // ✅ Lancia i coriandoli
   window.lanciaFuochi = function lanciaFuochi() {
-    if (triggered) return;
-    triggered = true;
+  if (triggered) return;
+  triggered = true;
 
-    canvas.style.display = 'block';
+  // ✅ RESET COMPLETO
+  particles = [];
+  if (animId) {
+    cancelAnimationFrame(animId);
+    animId = null;
+  }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  canvas.style.display = 'block';
     resize();
 
     // 180 particelle — sobrie ma visibili
